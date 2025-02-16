@@ -67,7 +67,7 @@ class ScoliosisTimePredictor:
         use_boruta=False
     ):
         """
-        Splits data, optionally applies Boruta feature selection, performs grid searches
+        Splits data, optionally applies Boruta feature selection, performs gri”d searches
         for all models, and returns the best estimator, its performance metrics, model name,
         and the test set used for evaluation.
         """
@@ -192,7 +192,7 @@ class ScoliosisTimePredictor:
         print(f">>> Metrics for {model_name}: AUC={metrics['auc']:.3f}, F1={metrics['f1']:.3f}")
         return best_model, metrics
 
-    def compute_shap_values(self, best_estimator, X_test, display_plot=False):
+    def compute_shap_values(self, best_estimator, X_test):
         """
         Computes SHAP values for the best estimator and returns a dictionary containing:
           - raw shap values (array)
@@ -218,10 +218,6 @@ class ScoliosisTimePredictor:
             "mean_abs_shap": mean_abs_shap
         }).sort_values(by="mean_abs_shap", ascending=False)
         
-        if display_plot:
-            print(">>> Displaying SHAP summary plot...")
-            shap.summary_plot(shap_values, X_test, max_display=25, plot_type="dot")
-        
         print(">>> SHAP computation complete.")
         return {"shap_values": shap_values, "shap_summary": shap_summary_df}
 
@@ -242,6 +238,42 @@ class ScoliosisTimePredictor:
         # Save SHAP summary.
         shap_data["shap_summary"].to_csv(shap_csv, index=False)
         print(f"Saved SHAP summary to {shap_csv}")
+
+    def show_shap_beeswarm(self, shap_data, X_test, show_plot=True, save_plot=False, plot_filename=None):
+        """
+        Displays or saves a SHAP beeswarm plot based on the provided shap_data.
+        
+        Parameters:
+            shap_data (dict): Dictionary returned by compute_shap_values() 
+                            containing 'shap_values' and 'shap_summary'.
+            X_test (pd.DataFrame): The test set used to compute shap_values.
+            show_plot (bool): Whether to display the beeswarm plot.
+            save_plot (bool): Whether to save the beeswarm plot to a file.
+            plot_filename (str): Name of the file to save the plot. If None, 
+                                defaults to 'shap_beeswarm_plot.png'.
+        """
+        import shap
+        import matplotlib.pyplot as plt
+
+        shap_values = shap_data["shap_values"]
+
+        # Create a new figure (or you can control figure size here if you want).
+        plt.figure()
+
+        # Pass show=False so that shap.summary_plot doesn't immediately display the plot.
+        shap.summary_plot(shap_values, X_test, max_display=25, plot_type="dot", show=False)
+
+        if save_plot:
+            if not plot_filename:
+                plot_filename = "shap_beeswarm_plot.png"
+            plt.savefig(plot_filename, bbox_inches='tight')
+            print(f">>> SHAP beeswarm plot saved as '{plot_filename}'.")
+
+        if show_plot:
+            plt.show()
+
+        # Close the figure so it doesn't hang or cause issues in certain environments.
+        plt.close()
 
     def run_random_forest_regression_with_shap(self, X_train, X_test, y_train, y_test, n_estimators=100, random_state=42):
         """

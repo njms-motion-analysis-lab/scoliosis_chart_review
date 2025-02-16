@@ -62,13 +62,14 @@ os.makedirs(RESULTS_FOLDER, exist_ok=True)
 
 # Process each raw data file.
 for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
+    # This goes alphabetically by file name in raw_chart_data
     for filename in filenames:
         csv_path = os.path.join(subdir, filename)
         stp = ScoliosisTimePredictor(csv_path=csv_path)
         
         print("Processing file:", filename)
         
-        # Training DataFrame CSV path.
+        # 1. Training DataFrame CSV path.
         training_df_csv = os.path.join(RESULTS_FOLDER, f"training_df_{TARGET}.csv")
         
         if os.path.exists(training_df_csv):
@@ -80,7 +81,7 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
             print(f"Saving training DataFrame to {training_df_csv}")
             df.to_csv(training_df_csv, index=False)
         
-        # Run grid search pipeline.
+        # 2. Run grid search pipeline.
         best_pipeline, best_metrics, best_model_name, X_test = stp.grid_search_pipeline(
             data=df, 
             target_column=TARGET,
@@ -89,8 +90,20 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
         )
         print("Best model:", best_model_name)
         
-        # Compute SHAP values for the best model.
-        shap_data = stp.compute_shap_values(best_pipeline, X_test, display_plot=False)
+        # 3. Compute SHAP values for the best model.
+        shap_data = stp.compute_shap_values(best_pipeline, X_test)
         
-        # Save performance and SHAP summary results to CSV.
-        stp.save_results_to_csv(best_model_name, best_metrics, shap_data, TARGET, RESULTS_FOLDER)
+        # 4. Save performance and SHAP summary results to CSV.
+        # stp.save_results_to_csv(best_model_name, best_metrics, shap_data, TARGET, RESULTS_FOLDER)
+
+        # 5. Display shap values
+        stp.show_shap_beeswarm(
+            shap_data,
+            X_test,
+            show_plot=False,
+            save_plot=True,
+            plot_filename="my_shap_beeswarm.png"
+        )
+
+        # Display or save shapley values
+        # method called on stp to display or save shap values beeswarm plot (default display)
