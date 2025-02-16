@@ -1,0 +1,20 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore local history (VSCode or other IDEs)
+.history/
+
+# Ignore catboost info folder
+catboost_info/
+
+# You may also want to ignore OS-specific files:
+.DS_Store
+
+# (Optional) If you want to ignore virtual environment folders, uncomment:
+# venv/
+# env/
+
+# (Optional) If you want to ignore the compiled library build output:
+# build/
+# dist/
