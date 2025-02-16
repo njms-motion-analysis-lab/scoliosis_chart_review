@@ -16,6 +16,8 @@ import os
 from catboost import CatBoostClassifier
 
 # Configure classification models with proper balancing
+
+# ins
 CLASSIFICATION_MODELS = {
     "RandomForestClassifier": {
         "classifier": RandomForestClassifier(class_weight='balanced'),
@@ -60,6 +62,9 @@ TARGET = "tothlos"                  # Target column
 
 os.makedirs(RESULTS_FOLDER, exist_ok=True)
 
+# uncomment the line below and move it around to debug.
+# import pdb;pdb.set_trace()
+
 # Process each raw data file.
 for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
     # This goes alphabetically by file name in raw_chart_data
@@ -97,6 +102,7 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
         # stp.save_results_to_csv(best_model_name, best_metrics, shap_data, TARGET, RESULTS_FOLDER)
 
         # 5. Display shap values
+        
         stp.show_shap_beeswarm(
             shap_data,
             X_test,
