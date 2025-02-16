@@ -6,10 +6,14 @@ This project uses machine learning models to analyze scoliosis chart data. It in
 
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+  - [Option A: Git Clone/Pull](#option-a-git-clonepull)
+  - [Option B: Download Zip](#option-b-download-zip)
 - [Running the Code](#running-the-code)
 - [Understanding the Outputs](#understanding-the-outputs)
 - [Using SHAP Results to Edit the Training Data](#using-shap-results-to-edit-the-training-data)
 - [Troubleshooting](#troubleshooting)
+
+---
 
 ## Prerequisites
 
@@ -20,17 +24,64 @@ This project uses machine learning models to analyze scoliosis chart data. It in
    - On Windows, pip is installed automatically with Python.  
    - On macOS/Linux, follow the instructions [here](https://pip.pypa.io/en/stable/installation/).
 
+---
+
 ## Installation
 
-1. **Download the Project**  
-   Place all project files (e.g., `run_models.py`, the `chart_review_scoliosis_time_predictor` module, etc.) in a single folder.
+### Option A: Git Clone/Pull
 
-2. **Install Required Packages**  
-   Open your terminal (or Command Prompt on Windows), navigate to the project folder, and run:
-
+1. **Clone the Repository**  
+   Open your terminal (or Command Prompt on Windows), then run:
    ```bash
-   pip install -r requirements.txt
+   git clone https://github.com/YourUsername/SCOLIOSIS_CHART_REVIEW.git
+
+1.  **Pull New Changes (If Updating)**\
+    If you already have the repository locally, navigate to its folder in your terminal and run:
+
+    bash
+
+    Copy
+
+    `git pull`
+
+    This command fetches the latest updates from GitHub.
+
+2.  **Open in VS Code (Optional)**
+
+    -   Launch Visual Studio Code.
+    -   Click **File** > **Open Folder**.
+    -   Select the `SCOLIOSIS_CHART_REVIEW` folder you just cloned.
+    -   Click **Open** to view/edit files in VS Code.
+
+### Option B: Download Zip
+
+1.  **Download the Project as a Zip**
+
+    -   Go to the project's GitHub page in your web browser. (if you're reading this on a web browser you've already done this)
+    -   Click the green **Code** button, then select **Download ZIP**.
+    -   Extract the downloaded ZIP file to a folder of your choice.
+2.  **Open in VS Code (Optional)**
+
+    -   Launch Visual Studio Code.
+    -   Click **File** > **Open Folder**.
+    -   Select the folder where you extracted the ZIP.
+    -   Click **Open** to view/edit files in VS Code.
+
+* * * * *
+
+### Install Required Packages
+
+From inside your project folder (whether cloned or unzipped), open your terminal and run:
+
+bash
+
+Copy
+
+`pip install -r requirements.txt`
+
 This command installs all necessary packages with the correct versions.
+
+* * * * *
 
 Running the Code
 ----------------
@@ -56,6 +107,8 @@ Running the Code
     -   Save performance and SHAP summaries as CSV files.
     -   Display a summary of the SHAP values.
 
+* * * * *
+
 Understanding the Outputs
 -------------------------
 
@@ -64,6 +117,8 @@ After running the script, you will find the following CSV files in the `results
 -   **training_df_tothlos.csv**: The training data used by the models.
 -   **performance_tothlos_<timestamp>.csv**: A CSV file containing performance metrics (e.g., AUC, F1, etc.) for the best model.
 -   **shap_summary_tothlos_<timestamp>.csv**: A CSV file with a summary of SHAP values, listing each feature and its mean absolute SHAP value, sorted by importance.
+
+* * * * *
 
 Using SHAP Results to Edit the Training Data
 --------------------------------------------
@@ -75,6 +130,8 @@ The SHAP summary helps you understand which features have the greatest influence
 3.  If a feature appears suspicious (e.g., due to data quality issues), open the **training_df_tothlos.csv** file in Excel.
 4.  Edit or remove the problematic column.
 5.  Re-run the model script to see how performance changes.
+
+* * * * *
 
 Troubleshooting
 ---------------
