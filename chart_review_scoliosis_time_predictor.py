@@ -221,13 +221,13 @@ class ScoliosisTimePredictor:
         print(">>> SHAP computation complete.")
         return {"shap_values": shap_values, "shap_summary": shap_summary_df}
 
-    def save_results_to_csv(self, best_model_name, best_metrics, shap_data, target, results_folder):
+    def save_results_to_csv(self, filename, best_model_name, best_metrics, shap_data, target, results_folder):
         """
         Saves performance metrics and SHAP summary to CSV files.
         Filenames include the target and a timestamp for easy tracking.
         """
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        performance_csv = os.path.join(results_folder, f"performance_{best_model_name}_{target}_{timestamp}.csv")
+        performance_csv = os.path.join(results_folder, f"performance_{filename}_{best_model_name}_{target}_{timestamp}.csv")
         shap_csv = os.path.join(results_folder, f"shap_summary_{best_model_name}_{target}_{timestamp}.csv")
         
         # Save performance metrics.

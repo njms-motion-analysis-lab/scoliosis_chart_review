@@ -73,9 +73,8 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
         stp = ScoliosisTimePredictor(csv_path=csv_path)
         
         print("Processing file:", filename)
-        
         # 1. Training DataFrame CSV path.
-        training_df_csv = os.path.join(RESULTS_FOLDER, f"training_df_{TARGET}.csv")
+        training_df_csv = os.path.join(RESULTS_FOLDER, f"training_df_{filename[0:-4]}_{TARGET}.csv")
         
         if os.path.exists(training_df_csv):
             print(f"Loading existing training DataFrame from {training_df_csv}")
@@ -99,7 +98,7 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
         shap_data = stp.compute_shap_values(best_pipeline, X_test)
         
         # 4. Save performance and SHAP summary results to CSV.
-        # stp.save_results_to_csv(best_model_name, best_metrics, shap_data, TARGET, RESULTS_FOLDER)
+        stp.save_results_to_csv(filename[0:-4], best_model_name, best_metrics, shap_data, TARGET, RESULTS_FOLDER)
 
         # 5. Display shap values
         
@@ -108,7 +107,7 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
             X_test,
             show_plot=False,
             save_plot=True,
-            plot_filename="my_shap_beeswarm.png"
+            plot_filename=f"heatmap_{filename[0:-4]}_{TARGET}.png"
         )
 
         # Display or save shapley values
