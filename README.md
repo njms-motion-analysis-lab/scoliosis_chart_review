@@ -33,7 +33,8 @@ This project uses machine learning models to analyze scoliosis chart data. It in
 1. **Clone the Repository**  
    Open your terminal (or Command Prompt on Windows), then run:
    ```bash
-   git clone https://github.com/YourUsername/SCOLIOSIS_CHART_REVIEW.git
+   git clone https://github.com/njms-motion-analysis-lab/scoliosis_chart_review.git
+   
 
 1.  **Pull New Changes (If Updating)**\
     If you already have the repository locally, navigate to its folder in your terminal and run:
