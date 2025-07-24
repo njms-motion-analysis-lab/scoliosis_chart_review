@@ -58,7 +58,7 @@ CLASSIFICATION_MODELS = {
 }
 RAW_DATA_FOLDER = "raw_chart_data"  # Updated location
 RESULTS_FOLDER = "results"          # Output folder
-TARGET = "tothlos"                  # Target column
+TARGET = "los"                  # Target column
 
 os.makedirs(RESULTS_FOLDER, exist_ok=True)
 
@@ -75,7 +75,6 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
         print("Processing file:", filename)
         # 1. Training DataFrame CSV path.
         training_df_csv = os.path.join(RESULTS_FOLDER, f"training_df_{filename[0:-4]}_{TARGET}.csv")
-        
         if os.path.exists(training_df_csv):
             print(f"Loading existing training DataFrame from {training_df_csv}")
             df = pd.read_csv(training_df_csv)
@@ -84,14 +83,12 @@ for subdir, _, filenames in os.walk(RAW_DATA_FOLDER):
             df = stp.generate_training_dataframe(target_col=TARGET)
             print(f"Saving training DataFrame to {training_df_csv}")
             df.to_csv(training_df_csv, index=False)
-        
+            
+            print(f"Saving training DataFrame to {training_df_csv}")
+            df.to_csv(training_df_csv, index=False)
+        df = stp.generate_training_dataframe(target_col=TARGET)
         # 2. Run grid search pipeline.
-        best_pipeline, best_metrics, best_model_name, X_test = stp.grid_search_pipeline(
-            data=df, 
-            target_column=TARGET,
-            models=CLASSIFICATION_MODELS,
-            bin_string="x > 5"
-        )
+        best_pipeline, best_metrics, best_model_name, X_test = stp.grid_search_pipeline(data=df, target_column=TARGET,models=CLASSIFICATION_MODELS,bin_string="x > 5")
         print("Best model:", best_model_name)
         
         # 3. Compute SHAP values for the best model.

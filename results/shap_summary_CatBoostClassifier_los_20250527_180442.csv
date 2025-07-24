@@ -1,0 +1,250 @@
+feature,mean_abs_shap
+inout_Outpatient,0.6289380862331088
+anesurg,0.2739521620157478
+prncptx,0.23060023908020177
+workrvu,0.16727778786078026
+"transt_Admitted through ER, including outside ER with direct hospital admission",0.1632327203600231
+anetime,0.14983360764193876
+dpatrm,0.127533666594961
+casetype_Urgent,0.11521972570807142
+podiag10,0.0924818120255003
+dprwbc,0.07811380682365639
+dprna,0.07458768922579394
+cerebral_palsy,0.07422845735955659
+prwbc,0.07334744621889053
+race_White,0.05844677501356045
+dprplate,0.04784120933657455
+dprptt,0.035271768122598725
+prplate,0.03218508042899412
+caseid,0.027083825877064524
+prhct,0.02352656548827535
+cpt,0.023091693757570572
+dothbleed,0.02291318338823258
+asaclas_ASA 1 – Normal/Healthy,0.02289850722317343
+lapthor_Open Only or N/A,0.022342703796864906
+hdisdt,0.02228011403846989
+dprinr,0.019846715791947335
+operyr,0.01903613173247568
+age_years,0.018679109190278056
+bleed_ml_tot,0.017207218081562784
+dprhct,0.01712599267488463
+weight,0.01686359224945567
+pralkph,0.015531420468955802
+othercpt1,0.01512071487918438
+prbili,0.014891226881927375
+height,0.014622190626405171
+prem_birth_Unknown,0.014456434926489393
+othercpt9,0.014422101351987297
+dprcreat,0.014283915019047144
+optime,0.013497987685703376
+prsodm,0.013497854962392627
+dprsgot,0.01332503952922867
+casetype_Emergent,0.013213843038433227
+surgspec_Orthopedics,0.012638980234569473
+surgane,0.012405124028559925
+prbun,0.01165547592650185
+race_Unknown/Not Reported,0.01150917614805252
+asaclas_ASA 2 - Mild Disturb,0.011176382348535113
+bmi,0.010879579816396203
+prpt,0.009826290126979881
+othercpt10,0.009453687415349419
+dprpt,0.0088954474932088
+concpt1,0.008577106019852407
+ethnicity_hispanic_Unkn,0.00841207054753802
+concpt8_64643.0,0.008260153016905428
+impcogstat,0.008086434943332988
+othercpt8,0.007971258040211314
+othercpt3,0.007723231097753973
+othercpt4,0.007641894906579344
+pufyear,0.007630051851269811
+admyr,0.00748719876021142
+nothbleed,0.007365518127507808
+dischdest_Home,0.006266408653763244
+concpt3,0.0060433591212876
+concpt2,0.006004162689943221
+othercpt7,0.005690271166370748
+pralbum,0.0054944399377968595
+othercpt5,0.0050338478949133545
+asthma,0.004829751107178925
+dprbun,0.004740610355389484
+acq_abnormality,0.004721846936567999
+concpt4,0.0046891160924812745
+delivery_mode_Unknown/Not Documented,0.00463421097994898
+seizure,0.003977878387920124
+dpralbum,0.0035263343538581822
+dischdest_Home/Permanent Residence,0.003497164450806753
+prem_birth_No,0.0034746665724621362
+prptt,0.0034601243811357187
+transt_Other,0.0032748186833729425
+prcreat,0.003051766941785669
+race_Asian,0.002973529203013446
+dischdest_Rehab,0.0029325056261971317
+othercpt2,0.00277313403561665
+othercpt6,0.002309679628854652
+concpt5,0.002052255584297524
+surgspec_Pediatric Orthopedic Surgery,0.00197651104758931
+concpt7_27331.0,0.0018801752097456275
+wndclas_Dirty/Infected,0.0017456656049101144
+malignancy_No current or prior history of cancer,0.0014142758062307503
+ostomy_type_Lower Gastrointestinal Tract,0.0012863626033641695
+"ostomy_type_Lower Gastrointestinal Tract,Urinary Tract",0.001246230613352373
+dpralkph,0.0011466817149977518
+bmi_quality_flag,0.0011254875181047706
+steroid,0.0010979832325206027
+prinr,0.0010206073471014715
+concpt6_27418.0,0.0009985444152263445
+readmpodays1,0.0009226492962859319
+concpt6_26480.0,0.0008134420592787651
+struct_pulm_ab,0.0007521321455856165
+race_Native Hawaiian or Other Pacific Islander,0.00067439905895704
+surgspec_Pediatric Neurosurgery,0.0005901635666598798
+wndclas_Clean/Contaminated,0.000534951572332426
+surgspec_Pediatric Otolaryngology _ENT_,0.0003339963972100122
+anestech_Other,0.00022635278316453065
+asaclas_ASA 4 – Severe Systemic,0.00015657195965934823
+dothvt,9.125684014546881e-05
+oxygen_sup,9.076949962295862e-05
+"race_White,Asian",4.469757047659299e-05
+dcdarrest,3.3138310717886327e-06
+concpt6_27687.0,0.0
+asaclas_ASA Not Assigned,0.0
+concpt6_27705.0,0.0
+concpt6_27475.0,0.0
+concpt6_27830.0,0.0
+concpt6_27005.0,0.0
+nurninfec,0.0
+concpt6_28300.0,0.0
+asaclas_None assigned,0.0
+asaclas_ASA not assigned,0.0
+concpt6_nan,0.0
+concpt6_27685.0,0.0
+dreintub,0.0
+malignancy_Past history of cancer,0.0
+delivery_mode_Vaginal Delivery,0.0
+asaclas_ASA 3 – Severe Systemic,0.0
+concpt7_25310.0,0.0
+asaclas_ASA 3 - Severe Disturb,0.0
+asaclas_ASA 2 – Mild Systemic D,0.0
+nsupinfec,0.0
+hxcld,0.0
+nreintub,0.0
+wndclas_Contaminated,0.0
+birth_location_nan,0.0
+tracheostomy,0.0
+apgar_5min_nan,0.0
+apgar_1min_nan,0.0
+delivery_mode_nan,0.0
+asaclas_ASA 4 - Life Threat,0.0
+concpt7_nan,0.0
+transfus,0.0
+neurodef_No Complication,0.0
+dischdest_Unskilled Facility Not Home,0.0
+"dischdest_Unskilled facility, not home",0.0
+supinfec_Superficial Incisional SSI,0.0
+oupneumo_Pneumonia,0.0
+reintub_Unplanned Intubation,0.0
+urninfec_Urinary Tract Infection,0.0
+cszre_Seizure,0.0
+cdarrest_No Complication,0.0
+concpt7_27686.0,0.0
+othbleed_No Complication,0.0
+othvt_VT Requiring Therapy,0.0
+othcdiff_No Complication,0.0
+othsysep_Systemic Sepsis,0.0
+othseshock_Septic Shock,0.0
+othclab_No Complication,0.0
+prsgot,0.0
+dischdest_Unknown,0.0
+"dischdest_Skilled care, not home",0.0
+"dischdest_Skilled Care, Not Home",0.0
+dischdest_Separate acute care,0.0
+concpt7_27705.0,0.0
+prsepis_nan,0.0
+concpt8_27381.0,0.0
+ventilat,0.0
+concpt8_64646.0,0.0
+concpt8_nan,0.0
+concpt9_nan,0.0
+dischdest_Expired,0.0
+dischdest_Facility Which was Home,0.0
+dischdest_Facility which was home,0.0
+birth_wgt_kg,0.0
+birth_hgt,0.0
+dischdest_Other Facility,0.0
+dprbili,0.0
+dischdest_Separate Acute Care,0.0
+malignancy_No,0.0
+nutr_support,0.0
+prsepis_Sepsis,0.0
+anestech_Unknown,0.0
+"race_White,Some Other Race",0.0
+neuromuscdis,0.0
+ethnicity_hispanic_Yes,0.0
+lapthor_Laparoscopic/MIS and Open,0.0
+lapthor_mis_43659.0,0.0
+lapthor_mis_Other,0.0
+lapthor_mis_nan,0.0
+ncdarrest,0.0
+prvpcs,0.0
+transt_Chronic care/Rehab/Intermediate Care/Spinal Cord,0.0
+dneurodef,0.0
+"transt_Transferred from outside hospital _NICU, PICU, Inpatient on General floor, Adult ICU_",0.0
+anestech_General,0.0
+anestech_Local,0.0
+anestech_Regional,0.0
+"race_White,Black or African American",0.0
+ostomy,0.0
+race_Some Other Race,0.0
+nothclab,0.0
+nothcdiff,0.0
+dothcdiff,0.0
+nothsysep,0.0
+dothsysep,0.0
+nothseshock,0.0
+dothseshock,0.0
+dothclab,0.0
+race_Race combinations with low frequency,0.0
+readmission1,0.0
+wndinf,0.0
+sex_Male,0.0
+sex_Non-bi,0.0
+hemodisorder,0.0
+race_Black or African American,0.0
+anestech_Spinal,0.0
+surgspec_Neurosurgery,0.0
+ostomy_type_nan,0.0
+esovar,0.0
+ivh_grade_Grade 3,0.0
+ivh_grade_Grade 4,0.0
+ivh_grade_IVH reported but no grade assigned,0.0
+ivh_grade_No IVH reported,0.0
+"ostomy_type_Central Nervous System,Upper Gastrointestinal Tract",0.0
+"ostomy_type_Central Nervous System,Urinary Tract",0.0
+nszre,0.0
+durninfec,0.0
+ostomy_type_Thorax,0.0
+"ostomy_type_Thorax,Upper Gastrointestinal Tract",0.0
+ostomy_type_Upper Gastrointestinal Tract,0.0
+"ostomy_type_Upper Gastrointestinal Tract,Lower Gastrointestinal Tract",0.0
+nothvt,0.0
+"ostomy_type_Upper Gastrointestinal Tract,Urinary Tract",0.0
+ostomy_type_Urinary Tract,0.0
+ivh_grade_Grade 2,0.0
+crf_Severe cardiac risk factors,0.0
+crf_No cardiac risk factors,0.0
+prem_birth_25-26 completed weeks gestation,0.0
+surgspec_Pediatric Cardiovascular-Thoracic,0.0
+nneurodef,0.0
+surgspec_Pediatric Plastics,0.0
+surgspec_Pediatric Surgery,0.0
+surgspec_Pediatric Urology,0.0
+surgspec_Plastics,0.0
+prem_birth_27-28 completed weeks gestation,0.0
+crf_Minor cardiac risk factors,0.0
+prem_birth_29-30 completed weeks gestation,0.0
+prem_birth_31-32 completed weeks gestation,0.0
+prem_birth_33-34 completed weeks gestation,0.0
+prem_birth_35-36 completed weeks gestation,0.0
+prem_birth_Less than 24 completed weeks gestation,0.0
+dszre,0.0
+"ostomy_type_Upper Gastrointestinal Tract,Lower Gastrointestinal Tract,Urinary Tract",0.0

@@ -261,7 +261,8 @@ class ScoliosisTimePredictor:
         plt.figure()
 
         # Pass show=False so that shap.summary_plot doesn't immediately display the plot.
-        shap.summary_plot(shap_values, X_test, max_display=25, plot_type="dot", show=False)
+        import pdb;pdb.set_trace()
+        shap.summary_plot(shap_values, X_test, max_display=100, plot_type="dot", show=False)
 
         if save_plot:
             if not plot_filename:
@@ -656,6 +657,7 @@ class ScoliosisFeatureEngineeringService:
         print(f"Low-variance columns to drop: {low_variance_cols}")
         data = data.drop(columns=low_variance_cols, errors="ignore")
         data = data.drop(columns="htooday", errors="ignore")
+        data = data.drop(columns="los_category", errors="ignore")
         return data
 
     @staticmethod

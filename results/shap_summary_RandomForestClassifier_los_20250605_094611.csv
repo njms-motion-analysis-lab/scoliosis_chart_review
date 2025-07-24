@@ -1,0 +1,291 @@
+feature,mean_abs_shap
+height,0.011460117747434944
+podiag10,0.011124807807117255
+anetime,0.01044326774436843
+weight,0.008202010598828273
+prcreat,0.007815395623693334
+bleed_ml_tot,0.0077996315314752575
+dothbleed,0.007286997042243329
+dpatrm,0.007222118039761226
+workrvu,0.00629237485531558
+nothbleed,0.005994715970400819
+operyr,0.004924732164962695
+apgar_5min_Unknown,0.004815642046267364
+othbleed_No Complication,0.004747432051569936
+prsgot,0.004575982571155078
+ostomy,0.0045644280274871355
+prhct,0.004115111248210668
+"prncptx_ARTHRODESIS, POSTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 7 TO 12 VERTEBRAL SEGMENTS",0.004011192288334588
+apgar_1min_Unknown,0.003935545746788723
+birth_location_nan,0.003562091480297988
+dischdest_Home,0.0034003221187537042
+apgar_5min_nan,0.0033941937830768184
+hdisdt,0.003384651421978894
+prpt,0.0033029579148805524
+cpt,0.0032031969701736404
+delivery_mode_nan,0.003149134380755042
+nutr_support,0.002979915816490445
+cerebral_palsy,0.0029308596425434517
+asaclas_ASA 2 - Mild Disturb,0.0028756396203439487
+optime,0.0025730601933391206
+"prncptx_ARTHRODESIS, POSTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; UP TO 6 VERTEBRAL SEGMENTS",0.002441446150387478
+apgar_1min_nan,0.00242815360199081
+prwbc,0.0023423794906937572
+dprhct,0.0022625004256651214
+neuromuscdis,0.0022066421952825037
+seizure,0.0021471684155407703
+pufyear,0.002140474879999165
+prbili,0.002134366496623167
+prplate,0.0021248545660921036
+dprpt,0.0019922907348788824
+pralbum,0.00196004315670022
+prsodm,0.0018903346003627094
+admyr,0.0018562130919658323
+dprwbc,0.0017943318196654901
+readmission1,0.0016879968841667953
+prinr,0.0016509502382876361
+dprbili,0.0016365158080571772
+age_years,0.0016304652840990668
+impcogstat,0.0015408126371333703
+surgane,0.0014615066130646071
+dpralbum,0.001436300240611112
+anesurg,0.001430790830724066
+dprplate,0.0014254061152618122
+asaclas_ASA 3 – Severe Systemic,0.001400791586779015
+prbun,0.0013934623923492334
+caseid,0.0013816509559858431
+othercpt1,0.0013783939712827716
+esovar,0.0012973489283731236
+othercpt10,0.0010845111821493679
+bmi,0.0010572335751109973
+dprna,0.0010438197615556823
+dprcreat,0.0010384182142356801
+dprinr,0.0010307486138399831
+concpt7,0.0009748615104787747
+pralkph,0.0009596316517359709
+concpt2,0.000891392152084413
+dprsgot,0.000879142651061781
+prptt,0.0008543710323444153
+dpralkph,0.0008065119627262702
+othercpt3,0.0007903787871857272
+othercpt4,0.0007863933940774062
+concpt3,0.0007801143273391615
+othercpt6,0.0007080012827183877
+race_Unknown/Not Reported,0.0006967613275756044
+othercpt5,0.0006954773925737828
+concpt1,0.0006939633027071058
+othercpt2,0.000688658567693554
+concpt9,0.0006649335917406602
+dprbun,0.0006561022385447168
+othercpt9,0.0006317823266701303
+struct_pulm_ab,0.0006098996731251222
+concpt4,0.0006052109307243387
+dprptt,0.0005783802335225288
+race_Asian,0.000577734051854744
+concpt8,0.000571326868276652
+concpt6,0.0005673588663202428
+race_White,0.0005652093624946354
+asaclas_ASA 1 – Normal/Healthy,0.0005178776802635947
+concpt5,0.00048138699168664983
+othercpt8,0.00047666350865348554
+othercpt7,0.0004053083500460136
+ostomy_type_Upper Gastrointestinal Tract,0.000390582069587194
+lapthor_mis_Other,0.0003871623521265004
+"prncptx_ARTHRODESIS, POSTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 13 OR MORE VERTEBRAL SEGMENTS",0.0003259002339535742
+asaclas_ASA 2 – Mild Systemic D,0.0003253859745078864
+concpt10_nan,0.00029683571043103937
+asthma,0.0002800327558964737
+readmpodays1,0.0002434692028470247
+oxygen_sup,0.00023416337555438174
+"dischdest_Skilled Care, Not Home",0.00021989140386204393
+dischdest_Home/Permanent Residence,0.00020384917605084654
+acq_abnormality,0.00019699665536108185
+prem_birth_No,0.00019541146971422695
+ethnicity_hispanic_Yes,0.00017771241119345814
+hxcld,0.0001681825853309841
+asaclas_ASA 3 - Severe Disturb,0.0001648159426422075
+lapthor_mis_43659.0,0.0001634271235884684
+prem_birth_Unknown,0.00015920789884786457
+sex_Male,0.00015548199357180142
+concpt10_22206.0,0.00015270049262364825
+ventilat,0.00015157730494500243
+crf_No cardiac risk factors,0.00013924685467183001
+concpt10_20660.0,0.00013007543806848592
+surgspec_Orthopedics,0.00012831157376385244
+surgspec_Pediatric Orthopedic Surgery,0.0001223428327875768
+bmi_quality_flag,0.0001176420377652651
+dischdest_Separate acute care,9.340125313323553e-05
+crf_Minor cardiac risk factors,8.530754240286586e-05
+tracheostomy,8.522125941115928e-05
+dischdest_Rehab,7.997262044916824e-05
+concpt10_14302.0,7.592677889183307e-05
+oupneumo_Pneumonia,6.638426567339888e-05
+prvpcs,6.426736592138176e-05
+prem_birth_35-36 completed weeks gestation,5.754488637748265e-05
+ostomy_type_Urinary Tract,5.1471207370301495e-05
+prem_birth_31-32 completed weeks gestation,4.9187873318922755e-05
+hemodisorder,4.6500510351959205e-05
+inout_Outpatient,4.351318937637794e-05
+race_Black or African American,3.88188814492923e-05
+dischdest_Other Facility,3.8440261950025464e-05
+concpt10_20936.0,3.783315920573486e-05
+wndclas_Clean/Contaminated,3.5692917404395584e-05
+birth_location_Unknown,3.5056630859372795e-05
+asaclas_ASA 4 – Severe Systemic,3.500431602204742e-05
+ostomy_type_Lower Gastrointestinal Tract,3.4597112258515784e-05
+urninfec_Urinary Tract Infection,3.2635129055514304e-05
+reintub_Unplanned Intubation,2.9789344260941096e-05
+othseshock_Septic Shock,2.8500425648902353e-05
+ethnicity_hispanic_Unkn,2.799325236736351e-05
+prncptx_REINSERTION OF SPINAL FIXATION DEVICE,2.7354285845097723e-05
+dothseshock,2.425311093175033e-05
+dischdest_Separate Acute Care,2.2253944463568305e-05
+"ostomy_type_Lower Gastrointestinal Tract,Urinary Tract",2.2213697945708303e-05
+nrenainsf,2.2161167105287686e-05
+dothcdiff,2.2099356120899246e-05
+nurninfec,2.1248287954836567e-05
+supinfec_Superficial Incisional SSI,2.0806236981696067e-05
+ivh_grade_No IVH reported,1.934958217803179e-05
+drenainsf,1.9130676737538222e-05
+dreintub,1.90809254758012e-05
+othcdiff_No Complication,1.895404337900736e-05
+transt_Chronic care/Rehab/Intermediate Care/Spinal Cord,1.744835032740823e-05
+transt_Other,1.7383661111760703e-05
+prsepis_Sepsis,1.7100995655075035e-05
+durninfec,1.6927667586403434e-05
+prncptx_EXPLORATION OF SPINAL FUSION,1.6161369911399695e-05
+lapthor_Open Only or N/A,1.5740781342488534e-05
+dothsysep,1.554619663048584e-05
+"prncptx_ARTHRODESIS, ANTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 8 OR MORE VERTEBRAL SEGMENTS",1.4996542677246968e-05
+concpt10_15734.0,1.399720803254308e-05
+nothsysep,1.368681680249664e-05
+dneurodef,1.337121365622467e-05
+steroid,1.2137858692428722e-05
+dothvt,1.1289108414038412e-05
+wndinf,1.0437744645541392e-05
+crf_Severe cardiac risk factors,9.94604683412942e-06
+asaclas_ASA Not Assigned,9.009504793135079e-06
+nothvt,8.7835292249264e-06
+nreintub,8.460326247242875e-06
+"prncptx_ARTHRODESIS, ANTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 4 TO 7 VERTEBRAL SEGMENTS",8.183666141064948e-06
+asaclas_ASA 4 - Life Threat,7.150700897951221e-06
+nothcdiff,6.8390190857176755e-06
+nszre,6.75216847461928e-06
+dischdest_Facility Which was Home,6.284017202288775e-06
+nothseshock,6.20088932670009e-06
+renainsf_Progressive Renal Insufficiency,6.141766890894516e-06
+"dischdest_Skilled care, not home",5.730714608555125e-06
+"prncptx_CRANIECTOMY, SUBOCCIPITAL WITH CERVICAL LAMINECTOMY FOR DECOMPRESSION OF MEDULLA AND SPINAL CORD, WITH OR WITHOUT DURAL GRAFT _EG, ARNOLD-CHIARI MALFORMATION_",5.431877955157659e-06
+prem_birth_33-34 completed weeks gestation,5.306354103644373e-06
+surgspec_Neurosurgery,5.121037495732943e-06
+"ostomy_type_Upper Gastrointestinal Tract,Lower Gastrointestinal Tract",4.142572547654399e-06
+casetype_Urgent,3.3522632973378635e-06
+prncptx_REMOVAL OF POSTERIOR SEGMENTAL INSTRUMENTATION,3.1444167446423755e-06
+malignancy_No current or prior history of cancer,2.9614261931236407e-06
+concpt10_64640.0,2.8219661098844367e-06
+prem_birth_29-30 completed weeks gestation,1.8887276936722468e-06
+malignancy_No,1.8123861275174427e-06
+wndclas_Dirty/Infected,2.7349073784036566e-07
+cszre_Seizure,1.0964925063592595e-19
+ivh_grade_Grade 2,2.4026776939931794e-20
+inotr_support,2.1513627204973907e-20
+ncdarrest,2.0531106754003592e-20
+sex_Non-bi,1.4425117337935408e-20
+surgspec_Pediatric Cardiovascular-Thoracic,6.073062725342678e-21
+"transt_Admitted through ER, including outside ER with direct hospital admission",4.716595282575257e-21
+prem_birth_25-26 completed weeks gestation,4.14498036694692e-21
+surgspec_Pediatric Neurosurgery,4.365487758601875e-22
+asaclas_ASA 5 - Moribund,0.0
+wndclas_Contaminated,0.0
+asaclas_ASA not assigned,0.0
+nsupinfec,0.0
+"prncptx_BONE GRAFT, ANY DONOR AREA; MAJOR OR LARGE",0.0
+asaclas_None assigned,0.0
+concpt10_14301.0,0.0
+birth_hgt,0.0
+"prncptx_LAMINECTOMY FOR EXCISION OF INTRASPINAL LESION OTHER THAN NEOPLASM, INTRADURAL; LUMBAR",0.0
+birth_wgt_kg,0.0
+"race_White,Asian",0.0
+race_Native Hawaiian or Other Pacific Islander,0.0
+othsysep_Systemic Sepsis,0.0
+othvt_VT Requiring Therapy,0.0
+race_Race combinations with low frequency,0.0
+cdarrest_No Complication,0.0
+neurodef_No Complication,0.0
+cnscva_Stroke/CVA with neurological deficit,0.0
+cnscoma_No Complication,0.0
+race_Some Other Race,0.0
+oprenafl_No Complication,0.0
+"dischdest_Unskilled facility, not home",0.0
+transfus,0.0
+dischdest_Unskilled Facility Not Home,0.0
+dischdest_Unknown,0.0
+"race_White,Black or African American",0.0
+"race_White,Some Other Race",0.0
+"prncptx_ARREST, EPIPHYSEAL, ANY METHOD _EG, EPIPHYSIODESIS_; TIBIA AND FIBULA, PROXIMAL",0.0
+"prncptx_ARTHRODESIS, ANTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 2 TO 3 VERTEBRAL SEGMENTS",0.0
+dischdest_Facility which was home,0.0
+dischdest_Expired,0.0
+dischdest_Against Medical Advice _AMA_,0.0
+concpt10_62350.0,0.0
+casetype_Emergent,0.0
+ostomy_type_nan,0.0
+noprenafl,0.0
+"transt_Transferred from outside hospital _NICU, PICU, Inpatient on General floor, Adult ICU_",0.0
+surgspec_Pediatric Urology,0.0
+surgspec_Pediatric Surgery,0.0
+surgspec_Pediatric Plastics,0.0
+surgspec_Pediatric Otolaryngology _ENT_,0.0
+dszre,0.0
+surgspec_Otolaryngology _ENT_,0.0
+nneurodef,0.0
+anestech_Spinal,0.0
+anestech_Regional,0.0
+anestech_Other,0.0
+anestech_Local,0.0
+anestech_General,0.0
+dcdarrest,0.0
+prem_birth_27-28 completed weeks gestation,0.0
+lapthor_mis_nan,0.0
+lapthor_Laparoscopic/MIS and Open,0.0
+"prncptx_THORACOSCOPY, SURGICAL; WITH THERAPEUTIC WEDGE RESECTION _EG, MASS, NODULE_, INITIAL UNILATERAL",0.0
+"prncptx_THORACOSCOPY, DIAGNOSTIC _SEPARATE PROCEDURE_; LUNGS, PERICARDIAL SAC, MEDIASTINAL OR PLEURAL SPACE, WITHOUT BIOPSY",0.0
+"prncptx_REPLACEMENT OR IRRIGATION, VENTRICULAR CATHETER",0.0
+"prncptx_LAMINECTOMY FOR BIOPSY/EXCISION OF INTRASPINAL NEOPLASM; INTRADURAL, INTRAMEDULLARY, THORACOLUMBAR",0.0
+"prncptx_OSTEOTOMY, ILIAC, ACETABULAR OR INNOMINATE BONE; WITH FEMORAL OSTEOTOMY AND WITH OPEN REDUCTION OF HIP",0.0
+"prncptx_OSTEOTOMY, ILIAC, ACETABULAR OR INNOMINATE BONE;",0.0
+"prncptx_MUSCLE, MYOCUTANEOUS, OR FASCIOCUTANEOUS FLAP; TRUNK",0.0
+"prncptx_LENGTHENING OF HAMSTRING TENDON; MULTIPLE TENDONS, BILATERAL",0.0
+"prncptx_LAMINECTOMY, WITH RELEASE OF TETHERED SPINAL CORD, LUMBAR",0.0
+prncptx_LAMINECTOMY WITH RHIZOTOMY; MORE THAN 2 SEGMENTS,0.0
+surgspec_Plastics,0.0
+"prncptx_LAMINECTOMY FOR BIOPSY/EXCISION OF INTRASPINAL NEOPLASM; COMBINED EXTRADURAL-INTRADURAL LESION, ANY LEVEL",0.0
+doprenafl,0.0
+prncptx_FREE MUSCLE OR MYOCUTANEOUS FLAP WITH MICROVASCULAR ANASTOMOSIS,0.0
+delivery_mode_Vaginal Delivery,0.0
+ncnscoma,0.0
+"prncptx_CRANIECTOMY, TREPHINATION, BONE FLAP CRANIOTOMY; FOR EXCISION OF BRAIN TUMOR, SUPRATENTORIAL, EXCEPT MENINGIOMA",0.0
+malignancy_Past history of cancer,0.0
+prsepis_nan,0.0
+prncptx_LAMINECTOMY WITH RHIZOTOMY; 1 OR 2 SEGMENTS,0.0
+prncptx_EXCISION OF CHEST WALL TUMOR INCLUDING RIBS,0.0
+"ostomy_type_Upper Gastrointestinal Tract,Urinary Tract",0.0
+"ostomy_type_Upper Gastrointestinal Tract,Lower Gastrointestinal Tract,Urinary Tract",0.0
+dcnscoma,0.0
+"ostomy_type_Thorax,Upper Gastrointestinal Tract",0.0
+ostomy_type_Thorax,0.0
+"ostomy_type_Central Nervous System,Urinary Tract",0.0
+"prncptx_IMPLANTATION, REVISION OR REPOSITIONING OF TUNNELED INTRATHECAL OR EPIDURAL CATHETER, FOR LONG-TERM MEDICATION ADMINISTRATION VIA AN EXTERNAL PUMP OR IMPLANTABLE RESERVOIR/INFUSION PUMP; WITHOUT LAMINECTOMY",0.0
+"ostomy_type_Central Nervous System,Upper Gastrointestinal Tract,Urinary Tract",0.0
+"ostomy_type_Central Nervous System,Upper Gastrointestinal Tract,Lower Gastrointestinal Tract",0.0
+"ostomy_type_Central Nervous System,Upper Gastrointestinal Tract",0.0
+"ostomy_type_Central Nervous System,Lower Gastrointestinal Tract,Urinary Tract",0.0
+"ostomy_type_Central Nervous System,Lower Gastrointestinal Tract",0.0
+ivh_grade_IVH reported but no grade assigned,0.0
+ivh_grade_Grade 4,0.0
+ivh_grade_Grade 3,0.0
+ncnscva,0.0
+"prncptx_GRAFT; RIB CARTILAGE, AUTOGENOUS, TO FACE, CHIN, NOSE OR EAR _INCLUDES OBTAINING GRAFT_",0.0
+dcnscva,0.0
+prem_birth_Less than 24 completed weeks gestation,0.0
+"prncptx_LAMINECTOMY FOR BIOPSY/EXCISION OF INTRASPINAL NEOPLASM; INTRADURAL, INTRAMEDULLARY, CERVICAL",0.0
