@@ -1,0 +1,5 @@
+bins,best_params,holdout,threshold_tuned,auc,confusion_matrix
+"{'edges': [-inf, 0, inf], 'labels': [0, 1], 'positive_bin': 1}","{'classifier__depth': 5, 'classifier__iterations': 200, 'classifier__learning_rate': 0.1}","{'accuracy': 0.9394618834080718, 'f1': 0.12903225806451613, 'precision': 1.0, 'recall': 0.06896551724137931, 'roc_auc': 0.6560820309269826, 'confusion_matrix': array([[417,   0],
+       [ 27,   2]]), 'report': '              precision    recall  f1-score   support\n\n           0      0.939     1.000     0.969       417\n           1      1.000     0.069     0.129        29\n\n    accuracy                          0.939       446\n   macro avg      0.970     0.534     0.549       446\nweighted avg      0.943     0.939     0.914       446\n'}","{'thr': 0.2, 'f1': 0.16666666666666666, 'acc': 0.9327354260089686, 'rec': 0.10344827586206896, 'prec': 0.42857142857142855, 'auc': 0.6560820309269826, 'cm': array([[413,   4],
+       [ 26,   3]])}",0.6560820309269826,"[[417   0]
+ [ 27   2]]"

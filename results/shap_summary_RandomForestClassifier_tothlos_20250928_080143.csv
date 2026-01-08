@@ -1,0 +1,141 @@
+feature,mean_abs_shap
+optime,0.07544133333976413
+dpatrm,0.04992016724803504
+anetime,0.046953829724577185
+"prncptx_TREATMENT OF SLIPPED FEMORAL EPIPHYSIS; BY SINGLE OR MULTIPLE PINNING, IN SITU",0.039633605128237805
+cpt,0.025642756115838026
+inout_Outpatient,0.025185924504838617
+prncptx_OPEN TREATMENT OF SLIPPED FEMORAL EPIPHYSIS; OSTEOTOMY AND INTERNAL FIXATION,0.022603614875461232
+workrvu,0.02022891813934479
+operyr,0.017540423985486324
+caseid,0.016558463603120202
+hdisdt,0.01451588105386716
+admyr,0.013804243617017539
+anesurg,0.013518338877338746
+pufyear,0.010795336986521301
+race_Unknown/Not Reported,0.008780167830956495
+race_White,0.005794646594988828
+age_years,0.005174437532841801
+ethnicity_hispanic_Unkn,0.004804863909976662
+dischdest_Home,0.004666254241078599
+casetype_Emergent,0.004374663382105525
+prplate,0.004371235047092573
+prhct,0.0043077250059449694
+dprna,0.004286158579193744
+age_days,0.004274964999671962
+prwbc,0.004134702485133462
+concpt1,0.004107623253124432
+casetype_Urgent,0.003977615032206164
+weight,0.0038184057839922183
+othercpt1,0.003493795694738154
+surgane,0.0033336258581015805
+prbun,0.0032607667072051864
+dprplate,0.0031669358866883374
+dprcreat,0.0030951788474902603
+height,0.0030542032896432483
+dprwbc,0.0029240852737874965
+dprbun,0.0028169900632826345
+lapthor_Open Only or N/A,0.0027946118311329444
+lapthor_mis_Other,0.0025876315469009047
+asaclas_ASA 2 - Mild Disturb,0.002454370051129221
+ethnicity_hispanic_Yes,0.002411010733119995
+prsodm,0.00238200859381472
+dprhct,0.002350693964095722
+nothbleed,0.002260158085977953
+transt_Admitted from home/clinic/doctor's office,0.002098866987261497
+race_Black or African American,0.0018985432782315328
+"transt_Admitted through ER, including outside ER with direct hospital admission",0.0018203633767152675
+prcreat,0.0017467465602649809
+othbleed_No Complication,0.0016617383392957862
+asaclas_ASA 1 – Normal/Healthy,0.0015468884858810923
+prbili,0.0014554903216017403
+prsgot,0.0012491520038413182
+pralbum,0.0012460720587134898
+bmi_quality_flag,0.0011814566988805066
+dothbleed,0.0011105215549299984
+prpt,0.0010562545361509467
+dischdest_Facility Which was Home,0.0009925146061215832
+dprsgot,0.000969727183046569
+prptt,0.0009526176991794485
+surgspec_Orthopedics,0.0009440098857871035
+dprinr,0.0009183641086252472
+dprptt,0.00074921579865772
+dischdest_Home/Permanent Residence,0.0007203801156487965
+prem_birth_Unknown,0.0006943975046672136
+transt_Chronic care/Rehab/Intermediate Care/Spinal Cord,0.0006879290146902356
+sex_Male,0.0006791383897091751
+hemodisorder,0.0005365162338899463
+prinr,0.0005352221471188579
+pralkph,0.0005295168971233954
+surgspec_Pediatric Orthopedic Surgery,0.0005248510350946615
+dprpt,0.0005063931175732688
+bleed_ml_tot,0.00048552420410894034
+asaclas_ASA 3 - Severe Disturb,0.0004816595591721819
+lapthor_Laparoscopic/MIS and Open,0.0004066200081824218
+dpralbum,0.0004049384489218845
+dpralkph,0.0003705225235314719
+"transt_Transferred from outside hospital _NICU, PICU, Inpatient on General floor, Adult ICU_",0.0003701229025734001
+prem_birth_No,0.00036423478421013033
+crf_Minor cardiac risk factors,0.00035949555196298675
+asaclas_ASA 3 – Severe Systemic,0.0002704583876180093
+"dischdest_Skilled Care, Not Home",0.0002603734544044501
+asaclas_ASA 2 – Mild Systemic D,0.00023332367748559715
+dprbili,0.0001996199565478651
+crf_No cardiac risk factors,0.00018809757820780962
+impcogstat,0.00017549244681692262
+asthma,0.00017001093312873797
+ostomy_type_Urinary Tract,0.00016016382016063443
+transt_Home/Permanent Residence,0.0001360626087292014
+dischdest_Rehab,0.00010999896657965145
+prsepis_nan,0.00010313514401645143
+prsepis_Sepsis,9.250732574762923e-05
+seizure,8.814634277836034e-05
+neuromuscdis,8.32687958280855e-05
+malignancy_Past history of cancer,8.112176804886021e-05
+struct_pulm_ab,5.1599880238490575e-05
+race_Asian,4.82450099831351e-05
+prem_birth_33-34 completed weeks gestation,4.06560811386529e-05
+nsupinfec,3.75383771638289e-05
+esovar,3.700038734600171e-05
+cerebral_palsy,3.6593037556150044e-05
+wndclas_Clean/Contaminated,3.5003551043736835e-05
+prem_birth_35-36 completed weeks gestation,3.0998367888134775e-05
+acq_abnormality,2.537218946364392e-05
+ostomy,2.1556626810943205e-05
+transt_Other Facility,1.8792051437641807e-05
+hxcld,1.3159565687615166e-05
+race_Native Hawaiian or Other Pacific Islander,1.1356187613685907e-05
+ivh_grade_Grade 4,9.442669057717322e-06
+prvpcs,9.114059568754671e-06
+nutr_support,7.355479994858667e-06
+ivh_grade_No IVH reported,6.155113222030997e-06
+surgspec_Pediatric Otolaryngology _ENT_,6.071381258568248e-06
+dischdest_Separate Acute Care,5.985300109240505e-06
+dischdest_Facility which was home,4.718536851004101e-06
+ventilat,3.899102192873294e-06
+surgspec_Pediatric Surgery,3.076414834083817e-06
+sex_Non-bi,2.9947895712193266e-06
+dischdest_Unskilled Facility Not Home,2.976040437074248e-06
+race_Some Other Race,2.258995911958184e-06
+prem_birth_25-26 completed weeks gestation,2.109200364011089e-06
+prem_birth_27-28 completed weeks gestation,0.0
+ivh_grade_Grade 3,0.0
+othcdiff_No Complication,0.0
+othvt_VT Requiring Therapy,0.0
+prem_birth_31-32 completed weeks gestation,0.0
+urninfec_Urinary Tract Infection,0.0
+supinfec_Superficial Incisional SSI,0.0
+surgspec_Neurosurgery,0.0
+dischdest_Unknown,0.0
+anestech_Spinal,0.0
+ivh_grade_IVH reported but no grade assigned,0.0
+steroid,0.0
+anestech_General,0.0
+ostomy_type_nan,0.0
+transt_Other,0.0
+durninfec,0.0
+asaclas_None assigned,0.0
+asaclas_ASA Not Assigned,0.0
+asaclas_ASA 4 – Severe Systemic,0.0
+asaclas_ASA 4 - Life Threat,0.0
+prem_birth_29-30 completed weeks gestation,0.0

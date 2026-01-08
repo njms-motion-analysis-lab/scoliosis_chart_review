@@ -1,0 +1,308 @@
+feature,mean_abs_shap
+height,0.1862597691678496
+othsysep_Systemic Sepsis,0.09624424599674969
+ped_sap_name3_nan,0.0833789850838703
+ostomy,0.07687091385924003
+ped_spn_post_neurodeftype_nan,0.05868229167504358
+bmi_quality_flag,0.039197949426422456
+ethnicity_hispanic_Yes,0.03635855189012089
+surgane,0.02534924089061684
+crd_icd9_1,0.02501884548823759
+prcreat,0.024068314537154325
+nutrition_at_discharge,0.022125499468765766
+optime,0.02182321613779888
+podiag,0.021578817041221086
+wndinf,0.0198062340442217
+ped_sap_intraop_findings,0.01924663349942521
+othercpt2,0.01896952305152892
+bleed_ml_tot,0.018947657371003415
+prwbc,0.01877621235650912
+prhct,0.018583127809490133
+race_Black or African American,0.01843536292044401
+ped_spn_post_trnsvol_allogen,0.01807087376641297
+yrdeath,0.01803531032715564
+dpatrm,0.017301896737111088
+caseid,0.016408907953800837
+pralkph,0.015127743755539698
+surgspec_Pediatric Orthopedic Surgery,0.014088849719053411
+othercpt6,0.013743115571815538
+ped_sap_allergy,0.013541089255953261
+anesurg,0.013324803547913329
+race_White,0.013209649017448854
+prbun,0.011781647879171228
+transt_Admitted from home/clinic/doctor's office,0.011384337228969057
+acq_abnormality,0.011229423383089349
+prsgot,0.01101011902467346
+anetime,0.01044180594251459
+ped_spn_antibio_wnd,0.010393902475312465
+bleeding_allogeneic,0.010197410066352946
+ped_spn_trnsvol_allogen,0.00963415777748585
+prpt,0.009362509842181833
+ped_sap_name3_Vancomycin,0.009077243053449854
+othercpt3,0.008248586655149394
+ped_sap_timelast,0.008231877158788722
+pralbum,0.008186061664648659
+asthma,0.008034292752201107
+age_days,0.007959353999054907
+prptt,0.007956114500504017
+othercpt1,0.007625072553032668
+prplate,0.0075853296566728
+ped_sap_time1,0.007073226225364997
+othercpt4,0.0067661635339033984
+inout_Outpatient,0.006575619272539493
+weight,0.006502499102716813
+donvent48hrs,0.00585935020319054
+esovar,0.005556154838118493
+operyr,0.005468039805999786
+othercpt9,0.005376267380327804
+ped_sap_finish,0.00534953187829384
+tothlos,0.0051244468875695885
+tracheostomy,0.005057830558051591
+race_Unknown/Not Reported,0.005027230709242032
+used_vancomycin,0.0047753172922817
+ped_spn_trnsvol_cell,0.004724577745599704
+ped_sap_time2,0.004683454194267581
+prsodm,0.0045817414761477925
+prbili,0.004490649921820864
+cpt,0.004455882850568395
+nonvent48hrs,0.0043578437745138655
+oupneumo_Pneumonia,0.004345401904835585
+combo_abx_regimen_cefazolin_vancomycin,0.004234253610951251
+ethnicity_hispanic_Unkn,0.004206210094033502
+othseshock_Septic Shock,0.004110150729745157
+bleeding_autologous,0.004042470429746295
+dothbleed,0.003751961393773282
+prsepis_nan,0.003578245350349399
+prinr,0.0035137397251385188
+used_cefoxitin,0.003500262976244557
+transt_Home/Permanent Residence,0.0034524448471304767
+workrvu,0.0034373161313009247
+ped_spn_neuromon,0.0032089074963071503
+ped_sap_name3_Metronidazole _Flagyl_,0.003167039510961064
+daysinicu,0.0030266642932197363
+dreintub,0.0027449454943916656
+othercpt5,0.002685148816728005
+othercpt7,0.00229481906632417
+ped_sap_name2_Cefepime _Maxipime_,0.0021948979420044813
+nutr_support,0.002155212119539007
+ped_sap_name2_Gentamicin _Garamycin_,0.0019252903458705803
+asaclas_ASA 2 – Mild Systemic D,0.0018287364611837215
+impcogstat,0.0017911749915376699
+pufyear,0.001655000549248429
+crf_No cardiac risk factors,0.001651540374133663
+cerebral_palsy,0.0016428380645593186
+ped_sap_name1_CeFAZoLin _Kefzol_,0.0016290277187230586
+ped_spn_icudays_2 days,0.00154194146407456
+hdisdt,0.00151796871114345
+othercpt8,0.0014963385904582034
+combo_abx_regimen_cefazolin_gentamicin_vancomycin,0.001455633544626044
+used_cefazolin,0.0013955911151793043
+used_clindamycin,0.0013747522428117327
+used_gentamicin,0.0013664095616013065
+hxcld,0.0013151471934169183
+durninfec,0.001285459758522944
+surgspec_Orthopedics,0.0012599333206736354
+crf_Minor cardiac risk factors,0.0012591865159050082
+prem_birth_35-36 completed weeks gestation,0.0012588270908613214
+ped_spn_priorop,0.0012574213347205172
+ped_sap_name2_Clindamycin _Cleocin_,0.0012002431081869721
+used_ceftazidime,0.0011900372067768894
+struct_pulm_ab,0.001182263116185772
+onvent48hrs_On Ventilator _ 48 hours,0.001100862200487302
+asaclas_ASA 3 – Severe Systemic,0.0010358605536259136
+ped_sap_time3,0.0009824536625442908
+"prncptx_ARTHRODESIS, POSTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; 7 TO 12 VERTEBRAL SEGMENTS",0.0009238108224795663
+prem_birth_29-30 completed weeks gestation,0.0008853367271380543
+ped_sap_name1_CefTRIAXone _Rocephin_,0.0008513124960111081
+combo_abx_regimen_cefazolin_gentamicin,0.0008447379115014783
+combo_abx_regimen_cefazolin_ceftazidime_vancomycin,0.0008038728470423347
+ped_sap_name2_CefTAZidime _Fortaz/Tazicef_,0.0007959050116707461
+asaclas_ASA 4 – Severe Systemic,0.0007830427700135934
+oxygen_sup,0.0007633902945515937
+prem_birth_31-32 completed weeks gestation,0.0007502619982012682
+race_Asian,0.0006834218681230319
+ped_spn_icudays_1 day,0.0006672484940159656
+dischdest_Home/Permanent Residence,0.0006613255492882707
+ventilat,0.0005465628515992076
+ped_sap_name1_Vancomycin,0.0005454185925475033
+malignancy_Past history of cancer,0.000522901905642259
+ped_sap_name1_Clindamycin _Cleocin_,0.0004793395078340613
+ped_sap_name1_Cefuroxime,0.00045575733688822857
+ped_sap_redosed,0.00045386242200156604
+othbleed_No Complication,0.0004427744021035186
+ped_sap_name3_Gentamicin _Garamycin_,0.0004408963997850344
+ped_sap_name2_CefTRIAXone _Rocephin_,0.00043430202673265777
+race_Some Other Race,0.0004290260470755135
+ped_sap_name3_Clindamycin _Cleocin_,0.0003995402141464601
+ped_spn_antifib,0.00038983364105827343
+combo_abx_regimen_cefazolin_ceftriaxone_metronidazole,0.00037834829586488183
+crf_Severe cardiac risk factors,0.00036478708776294696
+ped_spn_post_neurodef,0.0003403011785013877
+ped_spn_icudays_30 days,0.0003303456124459368
+othcdiff_No Complication,0.00031819870870043824
+ped_sap_name1_Piperacillin/tazobactam _Zosyn_,0.000308547239062406
+combo_abx_regimen_cefazolin_clindamycin_vancomycin,0.0002951461588006824
+prem_birth_25-26 completed weeks gestation,0.0002761087034532258
+stillinhosp,0.0002736922467039818
+nreintub,0.0002679717345794662
+combo_abx_regimen_ceftriaxone_vancomycin,0.00023914020474232497
+ped_sap_name2_Piperacillin/tazobactam _Zosyn_,0.0002108179944008414
+lapthor_Laparoscopic/MIS and Open,0.00020639587933751698
+combo_abx_regimen_cefazolin_clindamycin_metronidazole,0.0002055644860185128
+reintub_Unplanned Intubation,0.00020245407828659945
+casetype_Urgent,0.00019939159461428488
+combo_abx_regimen_cefazolin_ceftazidime_ceftriaxone,0.00017196175692664185
+prem_birth_27-28 completed weeks gestation,0.00015462439134678082
+ivh_grade_Grade 3,0.00014867159048180935
+transt_Chronic care/Rehab/Intermediate Care/Spinal Cord,0.00012354172178071057
+combo_abx_regimen_gentamicin_metronidazole_vancomycin,0.000122962254355071
+ped_sap_name1_CefoTEtan _Cefotan_,0.00011252128625150834
+combo_abx_regimen_clindamycin_metronidazole,0.0001032332546145682
+prvpcs,0.00010064011273351813
+ped_sap_name2_Other,9.589352045409753e-05
+combo_abx_regimen_cefazolin_ceftriaxone,8.903819220669988e-05
+combo_abx_regimen_gentamicin_metronidazole,6.678030754861283e-05
+othercpt10,6.298071810967862e-05
+cdarrest_No Complication,6.132741554947338e-05
+dopertod,4.804400227972486e-05
+ped_sap_name2_Metronidazole _Flagyl_,3.97170840654746e-05
+dcdarrest,3.4755341343286036e-05
+prem_birth_Less than 24 completed weeks gestation,3.159568785820952e-05
+cszre_Seizure,2.9000136146909224e-05
+dnr,2.5816472179450526e-05
+"race_White,Asian",1.9710579035460302e-05
+neurodef_No Complication,1.4653036921010674e-05
+nrenainsf,1.1674958041833816e-05
+"transt_Admitted through ER, including outside ER with direct hospital admission",9.900372128648395e-06
+combo_abx_regimen_ceftazidime_gentamicin_metronidazole,8.744398784253247e-06
+drenainsf,7.74758361496621e-06
+asaclas_ASA Not Assigned,4.918914833048019e-06
+io_cdarrest_No Complication,4.081811362119718e-06
+ped_spn_icudays_23 days,3.7155104692098037e-06
+dneurodef,2.7290465079030103e-06
+ped_sap_name2_Aztreonam,2.706235450052727e-06
+ped_sap_name1_Levofloxacin _Levaquin_,1.7931019479689523e-06
+dszre,1.5041879413974936e-06
+ped_spn_icudays_20 days,1.4103986440163228e-06
+dischdest_Unknown,1.2303928187693961e-06
+io_unplannedextub_Unplanned Extubation,1.2128595979510437e-06
+combo_abx_regimen_gentamicin_vancomycin,0.0
+combo_abx_regimen_cefazolin_cefoxitin,0.0
+ivh_grade_No IVH reported,0.0
+combo_abx_regimen_clindamycin_gentamicin,0.0
+sex,0.0
+ped_sap_name1_CefOXitin,0.0
+ivh_grade_IVH reported but no grade assigned,0.0
+ncdarrest,0.0
+ivh_grade_Grade 4,0.0
+combo_abx_regimen_gentamicin,0.0
+combo_abx_regimen_cefazolin_clindamycin,0.0
+combo_abx_regimen_cefazolin,0.0
+ped_spn_post_trnsvol_cell,0.0
+used_doxycycline,0.0
+transt_Other Facility,0.0
+concpt1,0.0
+used_ceftriaxone,0.0
+used_metronidazole,0.0
+transt_Other,0.0
+used_ampicillin,0.0
+admyr,0.0
+wndclas_Clean/Contaminated,0.0
+ped_spn_post_neurodeftype_Spinal cord injury,0.0
+ped_spn_icudays_9 days,0.0
+ped_spn_icudays_8 days,0.0
+ped_spn_icudays_7 days,0.0
+ivh_grade_Grade 2,0.0
+combo_abx_regimen_cefazolin_metronidazole_vancomycin,0.0
+ped_spn_icudays_5 days,0.0
+combo_abx_regimen_cefazolin_ceftazidime_gentamicin,0.0
+surgspec_Pediatric Surgery,0.0
+combo_abx_regimen_ampicillin_cefazolin,0.0
+surgspec_Pediatric Otolaryngology _ENT_,0.0
+combo_abx_regimen_clindamycin_metronidazole_vancomycin,0.0
+combo_abx_regimen_ceftriaxone_clindamycin_vancomycin,0.0
+combo_abx_regimen_cefazolin_metronidazole,0.0
+combo_abx_regimen_metronidazole_vancomycin,0.0
+prem_birth_33-34 completed weeks gestation,0.0
+combo_abx_regimen_cefazolin_ceftriaxone_gentamicin,0.0
+surgspec_Pediatric Neurosurgery,0.0
+combo_abx_regimen_clindamycin_vancomycin,0.0
+single_abx_regimen_,0.0
+combo_abx_regimen_cefazolin_clindamycin_gentamicin,0.0
+combo_abx_regimen_ceftazidime_gentamicin_vancomycin,0.0
+combo_abx_regimen_cefazolin_gentamicin_metronidazole,0.0
+combo_abx_regimen_cefazolin_ceftazidime,0.0
+combo_abx_regimen_ceftazidime_vancomycin,0.0
+combo_abx_regimen_clindamycin_gentamicin_vancomycin,0.0
+nothbleed,0.0
+combo_abx_regimen_vancomycin,0.0
+combo_abx_regimen_cefazolin_ceftriaxone_vancomycin,0.0
+prem_birth_No,0.0
+combo_abx_regimen_cefazolin_ceftazidime_metronidazole,0.0
+combo_abx_regimen_clindamycin_gentamicin_metronidazole,0.0
+prem_birth_Unknown,0.0
+combo_abx_regimen_ceftriaxone_metronidazole_vancomycin,0.0
+combo_abx_regimen_ceftazidime_metronidazole_vancomycin,0.0
+"transt_Transferred from outside hospital _NICU, PICU, Inpatient on General floor, Adult ICU_",0.0
+ped_spn_icudays_6 days,0.0
+ped_spn_icudays_3 days,0.0
+ped_spn_icudays_4 days,0.0
+dischdest_Against Medical Advice _AMA_,0.0
+renainsf_Progressive Renal Insufficiency,0.0
+oprenafl_No Complication,0.0
+ped_sap_name2_Imipenem/cilastatin _Primaxin_,0.0
+urninfec_Urinary Tract Infection,0.0
+ped_sap_name2_Doxycycline,0.0
+nurninfec,0.0
+ped_sap_name2_Cefuroxime,0.0
+ped_sap_name2_CefoTEtan _Cefotan_,0.0
+seizure,0.0
+cnscoma_No Complication,0.0
+othvt_VT Requiring Therapy,0.0
+ped_sap_name2_CefOXitin,0.0
+ped_sap_name2_CeFAZoLin _Kefzol_,0.0
+neuromuscdis,0.0
+ped_sap_name2_Ampicillin/sulbactam _Unasyn_,0.0
+ped_sap_name2_Ampicillin WITHOUT sulbactam,0.0
+"preop_covid_Yes,",0.0
+ped_sap_name1_Tobramycin,0.0
+"postop_covid_Yes,",0.0
+ped_sap_name1_Other,0.0
+ped_sap_name1_Meropenem _Merrem_,0.0
+ped_sap_name1_Gentamicin _Garamycin_,0.0
+ped_sap_name1_Azithromycin,0.0
+"prncptx_ARTHRODESIS, POSTERIOR, FOR SPINAL DEFORMITY, WITH OR WITHOUT CAST; UP TO 6 VERTEBRAL SEGMENTS",0.0
+ped_sap_name1_Aztreonam,0.0
+ped_sap_name1_Cefepime _Maxipime_,0.0
+lapthor_Open Only or N/A,0.0
+death30yn,0.0
+ped_sap_name2_Tobramycin,0.0
+ped_sap_name2_Vancomycin,0.0
+ped_spn_icudays_14 days,0.0
+ped_sap_name1_CefTAZidime _Fortaz/Tazicef_,0.0
+ped_spn_icudays_28 days,0.0
+ped_spn_icudays_25 days,0.0
+dischdest_Expired,0.0
+ped_spn_icudays_22 days,0.0
+ped_spn_icudays_21 days,0.0
+icuyesorno,0.0
+ped_spn_icudays_19 days,0.0
+ped_spn_icudays_18 days,0.0
+ped_spn_icudays_17 days,0.0
+ped_spn_icudays_16 days,0.0
+ped_spn_icudays_15 days,0.0
+ped_spn_icudays_13 days,0.0
+ped_sap_name2_nan,0.0
+ped_spn_icudays_12 days,0.0
+ped_spn_icudays_11 days,0.0
+ped_spn_icudays_10 days,0.0
+race_Native Hawaiian or Other Pacific Islander,0.0
+race_Race Combinations with Low Frequency,0.0
+race_Race combinations with low frequency,0.0
+ped_sap_name3_Other,0.0
+dischdest_Other Facility,0.0
+ped_sap_name3_Ceftizoxime sodium,0.0
+transfus,0.0
+ped_sap_name3_CefTRIAXone _Rocephin_,0.0
+ped_sap_name3_CeFAZoLin _Kefzol_,0.0
+ped_sap_name3_Cefepime _Maxipime_,0.0
