@@ -12,14 +12,17 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score, roc_auc_score,
     confusion_matrix, mean_absolute_error, mean_squared_error, r2_score,
-    classification_report, make_scorer
+    classification_report, make_scorer, average_precision_score
 )
-from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold
+from sklearn.model_selection import train_test_split, GridSearchCV, StratifiedKFold, RepeatedStratifiedKFold
+from sklearn.model_selection import cross_val_predict
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
+from imblearn.pipeline import Pipeline as ImbPipeline
+from imblearn.over_sampling import SMOTE, BorderlineSMOTE, ADASYN
+from imblearn.ensemble import BalancedRandomForestClassifier
 from sklearn.utils.multiclass import type_of_target
 
-from boruta import BorutaPy
 # Global constants used in feature engineering
 KNOWN_COMPOSITES = {
     "any_ssi": ["dsupinfec", "wndinfd", "orgspcssi", "dorgspcssi"],
@@ -50,33 +53,51 @@ class ScoliosisTimePredictor:
         self.csv_path = csv_path
 
     def prepare_train_test(self, data, target_column, test_size=0.2, random_state=42, bin_string=None):
-        """
-        Splits the data into training and testing sets.
-        If bin_string is provided, converts the target to binary using the condition.
-        """
         X = data.drop(columns=[target_column])
         y = data[target_column]
 
         if bin_string is not None:
             y = self.convert_to_binary(data=X, target=y, statement=bin_string)
 
-        return train_test_split(X, y, test_size=test_size, random_state=random_state)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y,
+            test_size=test_size,
+            random_state=random_state,
+            stratify=y,          # critical for rare outcomes
+            shuffle=True
+        )
+        return X_train, X_test, y_train, y_test
 
     def grid_search_pipeline(
-        self, 
-        data, 
+        self,
+        data,
         target_column="tothlos",  # Change as needed.
-        test_size=0.2, 
+        test_size=0.2,
         random_state=42,
         models=None,
         cv_strategy=StratifiedKFold(n_splits=5, shuffle=True, random_state=42),
         bin_string=None,
-        use_boruta=False
+        return_all_models=False,
+        use_smote=True,
+        sampling_strategy="borderline",
+        filter_features=True,
+        top_n_features=None,
+        min_feature_importance=0.001,
+        n_jobs=-1  # Control parallelism; set to 2-4 to limit memory usage
     ):
         """
-        Splits data, optionally applies Boruta feature selection, performs grid searches
-        for all models, and returns the best estimator, its performance metrics, model name,
-        and the test set used for evaluation.
+        Splits data, optionally applies feature filtering, performs grid searches
+        for all models.
+
+        If return_all_models=True, returns a dict of all model results.
+        Otherwise, returns only the best model (backward compatible).
+
+        Args:
+            use_smote: If True, apply oversampling to handle class imbalance (default: True)
+            sampling_strategy: Which sampler to use - "smote", "borderline", "adasyn" (default: "borderline")
+            filter_features: If True, filter low-importance features (default: True)
+            top_n_features: If set, keep only top N features (overrides min_feature_importance)
+            min_feature_importance: Remove features below this importance threshold (default: 0.001)
         """
         print("=== Starting grid search pipeline ===")
         if models is None or not isinstance(models, dict):
@@ -86,112 +107,172 @@ class ScoliosisTimePredictor:
         X_train, X_test, y_train, y_test = self.prepare_train_test(
             data, target_column, test_size, random_state, bin_string=bin_string
         )
-        
-        if use_boruta:
-            X_train, X_test = self._apply_boruta(X_train, y_train, X_test, random_state)
-        else:
-            print("Skipping Boruta feature selection (use_boruta is False).")
-        
+
+        # Feature filtering (removes obviously useless features)
+        # TODO: Stephen, skip feature filter for now
+        # if filter_features:
+        #     X_train, X_test = self._filter_low_importance_features(
+        #         X_train, y_train, X_test,
+        #         min_importance_threshold=min_feature_importance,
+        #         top_n=top_n_features,
+        #         n_jobs=n_jobs
+        #     )
+        # else:
+        #     print("Skipping feature filtering (filter_features is False).")
+
         best_estimator = None
         best_score = -np.inf
         best_model_name = None
         best_metrics = {}
 
+        # Store all model results
+        all_results = {}
+
         for model_name, model_info in models.items():
             print(f"\n--- Starting grid search for {model_name} ---")
-            estimator, metrics = self._run_grid_search(model_name, model_info, X_train, y_train, X_test, y_test, cv_strategy)
-            if metrics["auc"] > best_score:
-                best_score = metrics["auc"]
-                best_estimator = estimator
-                best_model_name = model_name
-                best_metrics = metrics
+            try:
+                estimator, metrics = self._run_grid_search(model_name, model_info, X_train, y_train, X_test, y_test, cv_strategy, use_smote=use_smote, sampling_strategy=sampling_strategy, n_jobs=n_jobs)
+                all_results[model_name] = {
+                    "estimator": estimator,
+                    "metrics": metrics
+                }
+                # Use PR-AUC for model selection (better for imbalanced data)
+                selection_metric = metrics.get("cv_pr_auc", -np.inf)
+                if selection_metric > best_score:
+                    best_score = selection_metric
+                    best_estimator = estimator
+                    best_model_name = model_name
+                    best_metrics = metrics
+            except Exception as e:
+                print(f"Error running {model_name}: {e}")
+                print("Continuing to next model...")
+                continue
 
         print(f"\n=== Best Overall Model: {best_model_name} ===")
-        print(f"Final AUC: {best_metrics['auc']:.3f}")
+        print(f"Final PR-AUC: {best_metrics.get('pr_auc', 0):.3f} (ROC-AUC: {best_metrics.get('auc', 0):.3f})")
         print("Final Confusion Matrix:")
         print(best_metrics["confusion_matrix"])
-        
-        # Return also X_test for subsequent SHAP analysis.
+
+        if return_all_models:
+            return all_results, best_model_name, X_test, y_test
+
+        # Backward compatible return
         return best_estimator, best_metrics, best_model_name, X_test
 
-    def _apply_boruta(self, X_train, y_train, X_test, random_state):
+    def _filter_low_importance_features(self, X_train, y_train, X_test, min_importance_threshold=0.001, top_n=None, n_jobs=-1):
         """
-        Applies Boruta feature selection on the training set and filters X_test accordingly.
+        Quick feature filtering using a fast Random Forest to estimate feature importance.
+        Removes features with very low importance before main model training.
+
+        Args:
+            min_importance_threshold: Remove features with importance below this (default: 0.001)
+            top_n: If set, keep only the top N most important features (overrides threshold)
+            n_jobs: Number of parallel jobs (-1 for all cores, 2-4 recommended to limit memory)
         """
-        print(">>> Running Boruta feature selection on training data...")
-        from boruta import BorutaPy  # Local import
-        boruta_estimator = RandomForestClassifier(n_estimators=100, random_state=random_state, n_jobs=-1)
-        boruta_selector = BorutaPy(
-            estimator=boruta_estimator,
-            n_estimators='auto',
-            verbose=2,
-            random_state=random_state,
-            max_iter=100,      # adjust if needed
-            two_step=True,     # less strict, optional
-            alpha=0.1          # significance level; increase to be less strict
+        print(">>> Running quick feature importance filtering...")
+
+        # Train a quick RF to get feature importances
+        quick_rf = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=10,
+            random_state=42,
+            n_jobs=n_jobs,
+            class_weight='balanced'
         )
-        boruta_selector.fit(X_train.values, y_train.values)
-        selected_features = X_train.columns[boruta_selector.support_].tolist()
-        print(">>> Boruta selected features:", selected_features)
-        
+        quick_rf.fit(X_train, y_train)
+
+        # Get feature importances
+        importances = pd.DataFrame({
+            'feature': X_train.columns,
+            'importance': quick_rf.feature_importances_
+        }).sort_values('importance', ascending=False)
+
+        print(f">>> Top 10 features by importance:")
+        print(importances.head(10).to_string(index=False))
+
+        # Filter features
+        if top_n is not None:
+            selected_features = importances.head(top_n)['feature'].tolist()
+            print(f">>> Keeping top {top_n} features")
+        else:
+            selected_features = importances[importances['importance'] >= min_importance_threshold]['feature'].tolist()
+            print(f">>> Keeping {len(selected_features)} features with importance >= {min_importance_threshold}")
+
+        removed_count = len(X_train.columns) - len(selected_features)
+        print(f">>> Removed {removed_count} low-importance features")
+
         if selected_features:
-            print(">>> Filtering training and testing sets to selected features.")
             X_train = X_train[selected_features]
             X_test = X_test[selected_features]
-        else:
-            print(">>> Warning: Boruta did not select any features, proceeding with all features.")
-        
+
         return X_train, X_test
 
-    def _run_grid_search(self, model_name, model_info, X_train, y_train, X_test, y_test, cv_strategy):
+    def _run_grid_search(self, model_name, model_info, X_train, y_train, X_test, y_test, cv_strategy, use_smote=True, sampling_strategy="borderline", n_jobs=-1):
         """
-        Binary LOS classification: 0 = LOS <= 1 day, 1 = LOS > 1 day.
-        Assumes X_* are already preprocessed. Returns metrics with 'auc' key (ROC AUC).
+        Binary classification. Handles both:
+        - Already-binary targets (e.g., reoperation with values 0/1)
+        - Continuous targets that need binning (e.g., LOS)
+        Returns metrics with 'auc' key (ROC AUC).
+
+        Args:
+            use_smote: If True, apply oversampling within CV folds to handle class imbalance
+            sampling_strategy: Which sampler to use - "smote", "borderline", "adasyn" (default: "borderline")
         """
 
-        # ----- 1) Binary binning config -----
-        # Two categories: <=1 vs >1 day
-        # bin_edges  = model_info.get("bin_edges",  [-1, 1, np.inf])
-        # bin_labels = model_info.get("bin_labels", [0, 1])
-        # positive_bin = model_info.get("positive_bin", 1)  # 'extended LOS' = >1 day
+        # ----- 1) Check if target is already binary -----
+        unique_train = set(y_train.unique())
+        unique_test = set(y_test.unique())
+        is_already_binary = unique_train.issubset({0, 1, 0.0, 1.0}) and unique_test.issubset({0, 1, 0.0, 1.0})
 
-
-        user_edges = model_info.get("bin_edges", None)
-        user_labels = model_info.get("bin_labels", None)
-        user_pos = model_info.get("positive_bin", None)
-
-        if user_edges is None:
-            # Compute threshold from TRAIN ONLY to avoid leakage
-            q = float(model_info.get("bin_quantile", 0.90))  # allow override, default 0.90
-            thr = np.quantile(y_train, q)
-            thr = int(np.rint(thr))  # round to nearest day
-
-            # Guard: ensure both classes exist; if degenerate, nudge the quantile
-            if (y_train >= thr).sum() == 0 or (y_train < thr).sum() == 0:
-                for q_try in (0.85, 0.95, 0.80, 0.97):
-                    thr_try = int(np.rint(np.quantile(y_train, q_try)))
-                    if (y_train >= thr_try).sum() > 0 and (y_train < thr_try).sum() > 0:
-                        thr = thr_try
-                        q = q_try
-                        break
-
-            # With right=False, bins are [a, b) so value == thr goes to the second bin
-            bin_edges  = [-np.inf, thr, np.inf]
-            bin_labels = [0, 1]       # 0 = shorter, 1 = extended
+        if is_already_binary:
+            # Target is already binary - use as-is
+            print(f">>> Target is already binary (values: {unique_train}), skipping binning")
+            ytr_bin = y_train.astype(int)
+            yte_bin = y_test.astype(int)
+            bin_edges = None
+            bin_labels = [0, 1]
             positive_bin = 1
+            thr = None
+            print(f">>> Class counts train: {ytr_bin.value_counts().to_dict()}, "
+                  f"test: {yte_bin.value_counts().to_dict()}")
         else:
-            bin_edges  = user_edges
-            bin_labels = user_labels if user_labels is not None else [0, 1]
-            positive_bin = user_pos if user_pos is not None else 1
-            thr = bin_edges[1] if len(bin_edges) == 3 else None  # for logging only
+            # Continuous target - apply binning
+            user_edges = model_info.get("bin_edges", None)
+            user_labels = model_info.get("bin_labels", None)
+            user_pos = model_info.get("positive_bin", None)
 
-        # Apply binning (>= thr is positive because right=False => [thr, inf))
-        ytr_bin = pd.cut(y_train, bins=bin_edges, labels=bin_labels, right=False).astype(int)
-        yte_bin = pd.cut(y_test,  bins=bin_edges, labels=bin_labels, right=False).astype(int)
+            if user_edges is None:
+                # Compute threshold from TRAIN ONLY to avoid leakage
+                q = float(model_info.get("bin_quantile", 0.90))  # allow override, default 0.90
+                thr = np.quantile(y_train, q)
+                thr = int(np.rint(thr))  # round to nearest day
 
-        print(f">>> Binning: edges={bin_edges} (thr={thr}), labels={bin_labels}; "
-            f"class counts train: {ytr_bin.value_counts().to_dict()}, "
-            f"test: {yte_bin.value_counts().to_dict()}")
+                # Guard: ensure both classes exist; if degenerate, nudge the quantile
+                if (y_train >= thr).sum() == 0 or (y_train < thr).sum() == 0:
+                    for q_try in (0.85, 0.95, 0.80, 0.97):
+                        thr_try = int(np.rint(np.quantile(y_train, q_try)))
+                        if (y_train >= thr_try).sum() > 0 and (y_train < thr_try).sum() > 0:
+                            thr = thr_try
+                            q = q_try
+                            break
+
+                # With right=False, bins are [a, b) so value == thr goes to the second bin
+                bin_edges  = [-np.inf, thr, np.inf]
+                bin_labels = [0, 1]       # 0 = shorter, 1 = extended
+                positive_bin = 1
+            else:
+                bin_edges  = user_edges
+                bin_labels = user_labels if user_labels is not None else [0, 1]
+                positive_bin = user_pos if user_pos is not None else 1
+                thr = bin_edges[1] if len(bin_edges) == 3 else None  # for logging only
+
+            # Apply binning (>= thr is positive because right=False => [thr, inf))
+            ytr_bin = pd.cut(y_train, bins=bin_edges, labels=bin_labels, right=False).astype(int)
+            yte_bin = pd.cut(y_test,  bins=bin_edges, labels=bin_labels, right=False).astype(int)
+
+            print(f">>> Binning: edges={bin_edges} (thr={thr}), labels={bin_labels}; "
+                f"class counts train: {ytr_bin.value_counts().to_dict()}, "
+                f"test: {yte_bin.value_counts().to_dict()}")
 
         # Sanity
         y_type = type_of_target(ytr_bin)
@@ -204,7 +285,31 @@ class ScoliosisTimePredictor:
         if not is_classifier(clf):
             raise TypeError(f"{model_name} must be a classifier, got {type(clf).__name__}")
 
-        pipe = Pipeline([("classifier", clf)])
+        # Check if classifier handles imbalance internally (e.g., BalancedRandomForestClassifier)
+        clf_type = type(clf).__name__
+        handles_imbalance_internally = clf_type in ['BalancedRandomForestClassifier', 'BalancedBaggingClassifier']
+
+        # Use imbalanced-learn Pipeline with oversampling for class imbalance handling
+        # Skip SMOTE for classifiers that handle imbalance internally
+        if use_smote and not handles_imbalance_internally:
+            if sampling_strategy == "borderline":
+                print(f">>> Using BorderlineSMOTE oversampling for {model_name}")
+                sampler = BorderlineSMOTE(random_state=42, k_neighbors=5)
+            elif sampling_strategy == "adasyn":
+                print(f">>> Using ADASYN oversampling for {model_name}")
+                sampler = ADASYN(random_state=42, n_neighbors=5)
+            else:  # default to regular SMOTE
+                print(f">>> Using SMOTE oversampling for {model_name}")
+                sampler = SMOTE(random_state=42, k_neighbors=3)
+
+            pipe = ImbPipeline([
+                ("sampler", sampler),
+                ("classifier", clf)
+            ])
+        else:
+            if handles_imbalance_internally:
+                print(f">>> {model_name} handles class imbalance internally - skipping SMOTE")
+            pipe = Pipeline([("classifier", clf)])
 
         # Normalize param grid keys to 'classifier__'
         raw_grid = model_info.get("param_grid", {})
@@ -216,51 +321,55 @@ class ScoliosisTimePredictor:
                 param_grid["classifier__" + k] = v
 
         # Add class_weight='balanced' if supported and not provided
+        # BUT skip for classifiers that handle imbalance internally (they balance via sampling)
         if "class_weight" in clf.get_params() and "classifier__class_weight" not in param_grid:
-            param_grid["classifier__class_weight"] = ["balanced"]
+            if not handles_imbalance_internally:
+                param_grid["classifier__class_weight"] = ["balanced"]
+            else:
+                print(f">>> Skipping class_weight for {model_name} (already handles imbalance via sampling)")
 
         # ----- 3) Scoring & CV -----
-        if not isinstance(cv_strategy, StratifiedKFold):
+        # Accept both StratifiedKFold and RepeatedStratifiedKFold
+        if not isinstance(cv_strategy, (StratifiedKFold, RepeatedStratifiedKFold)):
             cv_strategy = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
         scoring = {
-            "f1":        make_scorer(f1_score, average="binary", zero_division=0),
-            "accuracy":  "accuracy",
-            "precision": make_scorer(precision_score, average="binary", zero_division=0),
-            "recall":    make_scorer(recall_score, average="binary", zero_division=0),
-            "roc_auc":   "roc_auc",
+            "f1": "f1",
+            "accuracy": "accuracy",
+            "precision": "precision",
+            "recall": "recall",
+            "roc_auc": "roc_auc",
+            "pr_auc": "average_precision",  # safest and standard
         }
-
         grid_search = GridSearchCV(
             estimator=pipe,
             param_grid=param_grid,
             scoring=scoring,
-            refit="f1",  # optimize F1 in CV; we also report ROC AUC on holdout
+            refit="pr_auc",  # Optimize PR-AUC - more meaningful for imbalanced data
             cv=cv_strategy,
-            n_jobs=-1,
+            n_jobs=n_jobs,
             verbose=1,
         )
 
         print(f">>> Fitting grid search for {model_name} (binary classification)...")
         grid_search.fit(X_train, ytr_bin)
         best_model = grid_search.best_estimator_
+        cv_pr_auc = grid_search.best_score_
         print(">>> Completed grid search.")
         print(f">>> Best parameters: {grid_search.best_params_}")
 
         # ----- 4) Holdout evaluation -----
         y_pred = best_model.predict(X_test)
 
-        # Probability for positive class (needed for ROC AUC & threshold tuning)
+        # Probability for positive class (needed for ROC AUC, PR-AUC & threshold tuning)
         proba = None
         pos_auc = None
-        cls = best_model.named_steps["classifier"]
-        if hasattr(cls, "predict_proba"):
-            probs = cls.predict_proba(X_test)
-            # classes_ is [0,1] but be safe:
-            classes_ = cls.classes_
-            pos_idx = int(np.where(classes_ == positive_bin)[0][0])
-            proba = probs[:, pos_idx]
+        pr_auc = None
+        if hasattr(best_model, "predict_proba"):
+            probs = best_model.predict_proba(X_test)
+            proba = probs[:, 1]  # for binary 0/1
             pos_auc = roc_auc_score(yte_bin, proba)
+            pr_auc = average_precision_score(yte_bin, proba)  # More informative for imbalanced data
 
         acc  = accuracy_score(yte_bin, y_pred)
         f1b  = f1_score(yte_bin, y_pred, average="binary", zero_division=0)
@@ -270,23 +379,50 @@ class ScoliosisTimePredictor:
         rep  = classification_report(yte_bin, y_pred, zero_division=0, digits=3)
 
         # ----- 5) Threshold tuning (optional but useful) -----
+        oof_proba = cross_val_predict(
+            best_model,
+            X_train, ytr_bin,
+            cv=cv_strategy,
+            method="predict_proba",
+            n_jobs=n_jobs
+        )[:, 1]
+
+        # choose threshold based on training OOF predictions
+        best_thr, best_f1 = 0.5, -1
+        thr_grid = np.linspace(0.01, 0.50, 100)
+        for t in thr_grid:
+            pred_t = (oof_proba >= t).astype(int)
+            f1_t = f1_score(ytr_bin, pred_t, zero_division=0)
+            if f1_t > best_f1:
+                best_f1, best_thr = f1_t, t
+
+        # now evaluate on test using that fixed threshold
+        test_proba = best_model.predict_proba(X_test)[:, 1]
+        y_pred_thr = (test_proba >= best_thr).astype(int)
+        
+
+        
         tuned = None
         if proba is not None:
             best = {"thr": 0.5, "f1": f1b, "acc": acc, "rec": rec, "prec": prec, "auc": pos_auc, "cm": cm}
-            for t in np.linspace(0.2, 0.8, 25):
-                pred_t = (proba >= t).astype(int)
-                f1_t   = f1_score(yte_bin, pred_t, zero_division=0)
-                if f1_t > best["f1"]:
-                    best["thr"]  = t
-                    best["f1"]   = f1_t
-                    best["acc"]  = accuracy_score(yte_bin, pred_t)
-                    best["rec"]  = recall_score(yte_bin, pred_t, zero_division=0)
-                    best["prec"] = precision_score(yte_bin, pred_t, zero_division=0)
-                    best["auc"]  = roc_auc_score(yte_bin, proba)  # AUC unaffected by threshold
-                    best["cm"]   = confusion_matrix(yte_bin, pred_t, labels=bin_labels)
-            tuned = best
-            print(f">>> Tuned(>1d) | thr={best['thr']:.2f}  F1={best['f1']:.3f}  "
-                f"Acc={best['acc']:.3f}  Rec={best['rec']:.3f}  Prec={best['prec']:.3f}")
+            tuned = {
+                "thr": float(best_thr),
+                "f1": float(f1_score(yte_bin, y_pred_thr, zero_division=0)),
+                "acc": float(accuracy_score(yte_bin, y_pred_thr)),
+                "rec": float(recall_score(yte_bin, y_pred_thr, zero_division=0)),
+                "prec": float(precision_score(yte_bin, y_pred_thr, zero_division=0)),
+                "train_oof_f1": float(best_f1),
+                "confusion_matrix": confusion_matrix(yte_bin, y_pred_thr, labels=bin_labels),
+            }
+
+            print(
+                f">>> Tuned(threshold from OOF) | thr={tuned['thr']:.2f} "
+                f"OOF-F1={tuned['train_oof_f1']:.3f} "
+                f"Test-F1={tuned['f1']:.3f} "
+                f"Acc={tuned['acc']:.3f} "
+                f"Rec={tuned['rec']:.3f} "
+                f"Prec={tuned['prec']:.3f}"
+            )
 
         # ----- 6) Metrics (backward-compatible keys) -----
         metrics = {
@@ -298,63 +434,171 @@ class ScoliosisTimePredictor:
                 "precision": prec,
                 "recall": rec,
                 "roc_auc": pos_auc,                 # may be None if model lacks predict_proba
+                "pr_auc": pr_auc,                   # Precision-Recall AUC (better for imbalanced data)
                 "confusion_matrix": cm,
                 "report": rep,
             },
             "threshold_tuned": tuned,
+            # For ROC/PR curve generation
+            "y_proba": proba,
+            "y_test": yte_bin,
         }
         # Keep your caller happy:
         metrics["auc"] = pos_auc if pos_auc is not None else f1b  # selection metric
+        metrics["pr_auc"] = pr_auc  # Also expose at top level
         metrics["confusion_matrix"] = cm
+        metrics["cv_pr_auc"] = cv_pr_auc
 
         print(f">>> Holdout | Acc={acc:.3f}  F1={f1b:.3f}  "
             f"Prec={prec:.3f}  Rec={rec:.3f}  "
-            f"AUC={(pos_auc if pos_auc is not None else float('nan')):.3f}")
+            f"ROC-AUC={(pos_auc if pos_auc is not None else float('nan')):.3f}  "
+            f"PR-AUC={(pr_auc if pr_auc is not None else float('nan')):.3f}")
         return best_model, metrics
 
     def compute_shap_values(self, best_estimator, X_test):
         """
         Computes SHAP values for the best estimator and returns a dictionary containing:
-          - raw shap values (array)
-          - a summary DataFrame of mean absolute SHAP values per feature.
-        Optionally displays a SHAP summary plot.
+        - shap_values: array of shape (n_samples, n_features) for the positive class when applicable
+        - shap_summary: DataFrame of mean absolute SHAP values per feature.
+
+        Handles common cases:
+        - LogisticRegression (LinearExplainer)
+        - Tree-based models (TreeExplainer)
+        - XGBClassifier with base_score bracket workaround
         """
         print(">>> Computing SHAP values...")
-        best_classifier = best_estimator.named_steps['classifier']
-        explainer = shap.TreeExplainer(best_classifier)
-        raw_shap_values = explainer.shap_values(X_test)
-        
-        # Handle cases with multiple output dimensions.
-        raw_shape = np.array(raw_shap_values).shape
-        if len(raw_shape) == 3 and raw_shape[2] == 2:
-            shap_values = raw_shap_values[:, :, 1]
+
+        # Your pipelines use the step name 'classifier'
+        best_classifier = best_estimator.named_steps["classifier"]
+
+        model_type = type(best_classifier).__name__
+        print(f">>> Model type: {model_type}")
+
+        # --- choose explainer / compute raw shap values ---
+        if model_type == "LogisticRegression":
+            print(">>> Using LinearExplainer for linear model")
+            explainer = shap.LinearExplainer(best_classifier, X_test)
+            raw_shap_values = explainer.shap_values(X_test)
+
+        elif model_type == "BalancedRandomForestClassifier":
+            print(">>> Using TreeExplainer for BalancedRandomForestClassifier")
+            explainer = shap.TreeExplainer(best_classifier)
+            raw_shap_values = explainer.shap_values(X_test)
+
+        elif model_type == "XGBClassifier":
+            print(">>> Using TreeExplainer for XGBoost (with base_score fix)")
+            import builtins
+            import importlib
+            import shap.explainers._tree as tree_module
+
+            X_test_np = X_test.values.astype(np.float64)
+
+            original_float = builtins.float
+
+            def safe_float(val):
+                if isinstance(val, str) and val.startswith("[") and val.endswith("]"):
+                    val = val[1:-1]
+                return original_float(val)
+
+            builtins.float = safe_float
+            try:
+                importlib.reload(tree_module)
+                explainer = shap.TreeExplainer(best_classifier)
+                raw_shap_values = explainer.shap_values(X_test_np)
+            finally:
+                builtins.float = original_float
+
         else:
-            shap_values = raw_shap_values
-        
-        # Compute mean absolute SHAP value per feature.
+            print(">>> Using TreeExplainer for tree-based model")
+            explainer = shap.TreeExplainer(best_classifier)
+            raw_shap_values = explainer.shap_values(X_test)
+
+        # --- normalize output to (n_samples, n_features) ---
+        # Common binary-classification outputs:
+        #  - list of two arrays: [class0, class1] -> use class1
+        #  - array (n, p, 2) -> use [:, :, 1]
+        #  - array (n, p) -> use as-is
+        if isinstance(raw_shap_values, list):
+            if len(raw_shap_values) >= 2:
+                shap_values = raw_shap_values[1]  # positive class
+            else:
+                shap_values = raw_shap_values[0]
+        else:
+            raw_shape = np.array(raw_shap_values).shape
+            if len(raw_shape) == 3 and raw_shape[2] >= 2:
+                shap_values = raw_shap_values[:, :, 1]  # positive class
+            else:
+                shap_values = raw_shap_values
+
+        # Ensure numpy array for downstream ops
+        shap_values = np.asarray(shap_values)
+
+        # --- summary ---
         mean_abs_shap = np.mean(np.abs(shap_values), axis=0)
-        shap_summary_df = pd.DataFrame({
-            "feature": X_test.columns,
-            "mean_abs_shap": mean_abs_shap
-        }).sort_values(by="mean_abs_shap", ascending=False)
-        
+        shap_summary_df = pd.DataFrame(
+            {"feature": X_test.columns, "mean_abs_shap": mean_abs_shap}
+        ).sort_values(by="mean_abs_shap", ascending=False)
+
         print(">>> SHAP computation complete.")
         return {"shap_values": shap_values, "shap_summary": shap_summary_df}
 
-    def save_results_to_csv(self, filename, best_model_name, best_metrics, shap_data, target, results_folder):
+    def save_results_to_csv(self, best_metrics, shap_data, target, result_paths):
         """
         Saves performance metrics and SHAP summary to CSV files.
-        Filenames include the target and a timestamp for easy tracking.
+        Files are saved to organized subfolders with timestamps.
+
+        Args:
+            best_metrics: Dictionary of performance metrics
+            shap_data: Dictionary containing SHAP values and summary
+            target: Target column name
+            result_paths: Dictionary with paths for 'performance_summaries' and 'shap_summaries'
         """
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        performance_csv = os.path.join(results_folder, f"performance_{filename}_{best_model_name}_{target}_{timestamp}.csv")
-        shap_csv = os.path.join(results_folder, f"shap_summary_{best_model_name}_{target}_{timestamp}.csv")
-        
-        # Save performance metrics.
-        perf_df = pd.DataFrame([best_metrics])
+        performance_csv = os.path.join(result_paths["performance_summaries"], f"{target}_{timestamp}.csv")
+        shap_csv = os.path.join(result_paths["shap_summaries"], f"{target}_{timestamp}.csv")
+
+        # Flatten metrics for easy Excel viewing
+        holdout = best_metrics.get("holdout", {})
+        tuned = best_metrics.get("threshold_tuned", {})
+        cm = best_metrics.get("confusion_matrix")
+
+        # Extract confusion matrix values (assuming binary: TN, FP, FN, TP)
+        tn, fp, fn, tp = 0, 0, 0, 0
+        if cm is not None:
+            try:
+                tn, fp = cm[0][0], cm[0][1]
+                fn, tp = cm[1][0], cm[1][1]
+            except (IndexError, TypeError):
+                pass
+
+        # Build flattened row with key metrics first for easy viewing
+        flat_metrics = {
+            # Key metrics at the front (holdout set performance)
+            "accuracy": holdout.get("accuracy"),
+            "f1": holdout.get("f1"),
+            "roc_auc": holdout.get("roc_auc"),
+            "pr_auc": holdout.get("pr_auc"),  # PR-AUC is more informative for imbalanced data
+            "precision": holdout.get("precision"),
+            "recall": holdout.get("recall"),
+            # Confusion matrix broken out
+            "true_negatives": tn,
+            "false_positives": fp,
+            "false_negatives": fn,
+            "true_positives": tp,
+            # Threshold-tuned metrics (if available)
+            "tuned_threshold": tuned.get("thr") if tuned else None,
+            "tuned_f1": tuned.get("f1") if tuned else None,
+            "tuned_accuracy": tuned.get("acc") if tuned else None,
+            "tuned_precision": tuned.get("prec") if tuned else None,
+            "tuned_recall": tuned.get("rec") if tuned else None,
+            # Model parameters (as string for reference)
+            "best_params": str(best_metrics.get("best_params", {})),
+        }
+
+        perf_df = pd.DataFrame([flat_metrics])
         perf_df.to_csv(performance_csv, index=False)
         print(f"Saved performance metrics to {performance_csv}")
-        
+
         # Save SHAP summary.
         shap_data["shap_summary"].to_csv(shap_csv, index=False)
         print(f"Saved SHAP summary to {shap_csv}")
@@ -545,69 +789,6 @@ class ScoliosisTimePredictor:
         print("Training Random Forest model with SHAP visualization...")
         return self.run_random_forest_regression_with_shap(X_train, X_test, y_train, y_test)
 
-    def refine_dataframe(self, df, target_column, max_iter=500, random_state=42, two_step=True, alpha=0.1):
-        """
-        Refines the given DataFrame by selecting the best features using Boruta.
-        
-        If the target is binary (2 unique values), it uses a RandomForestClassifier;
-        otherwise, it uses a RandomForestRegressor.
-        
-        Parameters:
-            df (pd.DataFrame): The input DataFrame.
-            target_column (str): The name of the target column.
-            max_iter (int): Maximum number of iterations for Boruta (default: 500).
-            random_state (int): Random state for reproducibility.
-            two_step (bool): Whether to use the two-step procedure (can be less strict).
-            alpha (float): Significance level for feature acceptance (increase to be less strict).
-            
-        Returns:
-            pd.DataFrame: A refined DataFrame containing only the selected features 
-                        along with the target column.
-        """
-        # Separate features and target
-    
-    
-
-        X = df.drop(columns=[target_column])
-        y = df[target_column]
-        
-        print("Target unique values:", y.unique())
-        print("Number of unique target values:", y.nunique())
-        
-        # Choose estimator based on target type.
-        # Since your target gets converted to binary, we use RandomForestClassifier.
-        if y.nunique() == 2:
-            print("Using RandomForestClassifier for Boruta feature selection.")
-            estimator = RandomForestClassifier(n_estimators=1000, random_state=random_state, n_jobs=-1)
-        else:
-            print("Using RandomForestRegressor for Boruta feature selection.")
-            estimator = RandomForestRegressor(n_estimators=1000, random_state=random_state, n_jobs=-1)
-        
-        # Initialize and run Boruta with adjustable parameters.
-        boruta_selector = BorutaPy(
-            estimator,
-            n_estimators='auto',
-            verbose=2,
-            random_state=random_state,
-            max_iter=max_iter,
-            two_step=two_step,
-            alpha=alpha
-        )
-        boruta_selector.fit(X.values, y.values)
-        
-        # Retrieve the selected features
-        selected_features = X.columns[boruta_selector.support_].tolist()
-        print("Boruta selected features:", selected_features)
-        
-        # If no features are selected, warn and return the original DataFrame.
-        if not selected_features:
-            print("Warning: Boruta did not select any features. Returning the original DataFrame.")
-            return df
-        
-        # Return a DataFrame with the selected features plus the target column.
-        refined_df = df[selected_features + [target_column]]
-        return refined_df
-
     def load_and_clean_data(self):
         """
         Loads and cleans the scoliosis data from the CSV path.
@@ -672,6 +853,8 @@ class ScoliosisTimePredictor:
         data = ScoliosisFeatureEngineeringService.remove_empty_rows(data, columns_to_drop_if_empty)
         data = ScoliosisFeatureEngineeringService.replace_with_nan(data, missing_tokens=["-99", "null", "#null!", "na", "n/a", "", " "])
         data = ScoliosisFeatureEngineeringService.encode_binary(data, POTENTIAL_BINARY)
+        # Convert ordinal columns (like ASA Class) to numeric before categorical encoding
+        data = ScoliosisFeatureEngineeringService.encode_ordinal_columns(data)
         cat_cols = ScoliosisFeatureEngineeringService.find_potential_string_categorical_cols(data)
         data = ScoliosisFeatureEngineeringService.encode_categorical(data, cat_cols)
 
@@ -702,9 +885,6 @@ class ScoliosisTimePredictor:
         for col in data.select_dtypes(include=['object']).columns:
             print(f"Warning: Column {col} is still object type")
 
-            # Verify target is numeric
-            if target_col in data.columns:
-                data[target_col] = pd.to_numeric(data[target_col], errors='coerce').fillna(0).astype(int)
 
         return data
 
@@ -879,11 +1059,7 @@ class ScoliosisFeatureEngineeringService:
             print(f"    - {flag}: {count:,} ({count/len(df)*100:.1f}%)")
 
         print("\n5. Final Integration:")
-        data['bmi'] = np.where(
-            df['bmi_quality_flag'].isin(['valid', 'unusual_clinical']),
-            df['bmi'],
-            np.nan
-        )
+        data["bmi"] = np.where(df["bmi_quality_flag"].isin([2, 3]), df["bmi"], np.nan)
         data['bmi_quality_flag'] = df['bmi_quality_flag']
         print(f"  • Null BMI values: {data['bmi'].isna().sum():,}")
         print("✅ BMI encoding complete\n")
@@ -940,11 +1116,13 @@ class ScoliosisFeatureEngineeringService:
     def find_potential_string_categorical_cols(df, max_unique=50):
         """
         Identifies columns that are likely categorical based on their type and number of unique values.
+        ASA Class is included for one-hot encoding.
         """
         bool_like_values = {
             "yes", "no", "true", "false", "0", "1", "null",
             "none", "", "nan", "-99", "-1", "male", "female"
         }
+
         text_cols = df.select_dtypes(include=["object", "category", "string"]).columns
         potential_categorical = []
         for col in text_cols:
@@ -955,6 +1133,65 @@ class ScoliosisFeatureEngineeringService:
                 if not normalized.issubset(bool_like_values):
                     potential_categorical.append(col)
         return potential_categorical
+
+    @staticmethod
+    def encode_ordinal_columns(data):
+        """
+        Encodes ordinal columns like ASA class into simple numeric dummy variables.
+        Extracts the ASA class number from messy strings and creates clean columns:
+        - ASA_1: patient is ASA class 1
+        - ASA_2: patient is ASA class 2
+        - ASA_3plus: patient is ASA class 3, 4, or 5
+        """
+        # Handle ASA class column
+        asa_col = None
+        for col in data.columns:
+            if 'asaclas' in col.lower():
+                asa_col = col
+                break
+
+        if asa_col is not None:
+            print(f"Processing ASA class column: {asa_col}")
+
+            # Extract the ASA class number (1, 2, 3, 4, 5) from the string values
+            def extract_asa_class(value):
+                if pd.isna(value):
+                    return None
+                val_str = str(value).strip()
+                # Look for "ASA 1", "ASA 2", etc. pattern
+                match = re.search(r'ASA\s*(\d)', val_str, re.IGNORECASE)
+                if match:
+                    return int(match.group(1))
+                # Also try to find just a single digit if it's already numeric
+                try:
+                    num = int(float(val_str))
+                    if 1 <= num <= 5:
+                        return num
+                except (ValueError, TypeError):
+                    pass
+                return None
+
+            # Extract ASA class numbers
+            asa_values = data[asa_col].apply(extract_asa_class)
+
+            # Get unique non-null ASA classes found in the data
+            unique_classes = sorted([c for c in asa_values.dropna().unique() if c is not None])
+            print(f"ASA classes found: {unique_classes}")
+
+            # Create binary columns: ASA_1, ASA_2, ASA_3plus (3, 4, or 5)
+            data["ASA_1"] = (asa_values == 1).astype(int)
+            data["ASA_2"] = (asa_values == 2).astype(int)
+            data["ASA_3plus"] = (asa_values >= 3).astype(int)
+
+            print(f"  Created ASA_1: {data['ASA_1'].sum()} cases")
+            print(f"  Created ASA_2: {data['ASA_2'].sum()} cases")
+            print(f"  Created ASA_3plus: {data['ASA_3plus'].sum()} cases")
+
+            # Drop the original ASA column to prevent it from being one-hot encoded again
+            data = data.drop(columns=[asa_col])
+            print(f"Dropped original column: {asa_col}")
+
+        return data
 
     @staticmethod
     def rename_for_xgb_compatibility(df):

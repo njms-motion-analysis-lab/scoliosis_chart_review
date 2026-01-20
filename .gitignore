@@ -2,9 +2,12 @@
 __pycache__/
 *.py[cod]
 
+.csv
+
 # Ignore local history (VSCode or other IDEs)
 .history/
 
+results/
 # Ignore catboost info folder
 catboost_info/
 
